@@ -10,10 +10,10 @@
     // where without this option the import ends up usable though (specifically couldn't get react-timeago to import with
     // its typings, but without errors with this option turned off).
     "esModuleInterop": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "noEmitOnError": false,
     "skipLibCheck": true,
-    "outDir": "dist",
+    "outDir": "lib",
     "moduleResolution": "node",
     "baseUrl": ".",
     "noImplicitReturns": true,

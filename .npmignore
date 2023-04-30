@@ -1,0 +1,13 @@
+/.vscode/
+# assets
+# /lib/
+/coverage/
+/src/
+.gitignore
+.prettierrc
+# LICENSE
+# README.md
+jest.config.js
+package-lock.json
+# package.json
+tsconfig.json
