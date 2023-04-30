@@ -1,0 +1,1498 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`typeGenerators buildContentTree should fill the content tree with the parsed text and adhere to the generated types 1`] = `
+{
+  "$position": {
+    "end": {
+      "col": 25,
+      "ln": 20,
+    },
+    "start": {
+      "col": 9,
+      "ln": 2,
+    },
+  },
+  "$type": "T",
+  "content": {
+    "position": {
+      "end": {
+        "col": 25,
+        "ln": 20,
+      },
+      "start": {
+        "col": 9,
+        "ln": 2,
+      },
+    },
+    "type": "children",
+    "value": [
+      {
+        "$keywords": [
+          {
+            "position": {
+              "end": {
+                "col": 15,
+                "ln": 2,
+              },
+              "start": {
+                "col": 9,
+                "ln": 2,
+              },
+            },
+            "type": "keyword",
+            "value": "import",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 30,
+                "ln": 2,
+              },
+              "start": {
+                "col": 26,
+                "ln": 2,
+              },
+            },
+            "type": "keyword",
+            "value": "from",
+          },
+        ],
+        "$position": {
+          "end": {
+            "col": 32,
+            "ln": 2,
+          },
+          "start": {
+            "col": 9,
+            "ln": 2,
+          },
+        },
+        "$type": "Import",
+        "source": {
+          "position": {
+            "end": {
+              "col": 32,
+              "ln": 2,
+            },
+            "start": {
+              "col": 31,
+              "ln": 2,
+            },
+          },
+          "type": "child",
+          "value": {
+            "$position": {
+              "end": {
+                "col": 32,
+                "ln": 2,
+              },
+              "start": {
+                "col": 31,
+                "ln": 2,
+              },
+            },
+            "$type": "StringLiteral",
+            "value": {
+              "position": {
+                "end": {
+                  "col": 32,
+                  "ln": 2,
+                },
+                "start": {
+                  "col": 31,
+                  "ln": 2,
+                },
+              },
+              "type": "text",
+              "value": ""./someLibrary",
+            },
+          },
+        },
+        "target": {
+          "position": {
+            "end": {
+              "col": 25,
+              "ln": 2,
+            },
+            "start": {
+              "col": 16,
+              "ln": 2,
+            },
+          },
+          "type": "child",
+          "value": {
+            "$keywords": [
+              {
+                "position": {
+                  "end": {
+                    "col": 17,
+                    "ln": 2,
+                  },
+                  "start": {
+                    "col": 16,
+                    "ln": 2,
+                  },
+                },
+                "type": "keyword",
+                "value": "{",
+              },
+              {
+                "position": {
+                  "end": {
+                    "col": 25,
+                    "ln": 2,
+                  },
+                  "start": {
+                    "col": 24,
+                    "ln": 2,
+                  },
+                },
+                "type": "keyword",
+                "value": "}",
+              },
+            ],
+            "$position": {
+              "end": {
+                "col": 25,
+                "ln": 2,
+              },
+              "start": {
+                "col": 16,
+                "ln": 2,
+              },
+            },
+            "$type": "ImportParts",
+            "values": {
+              "position": {
+                "end": {
+                  "col": 23,
+                  "ln": 2,
+                },
+                "start": {
+                  "col": 17,
+                  "ln": 2,
+                },
+              },
+              "type": "children",
+              "value": [
+                {
+                  "$position": {
+                    "end": {
+                      "col": 18,
+                      "ln": 2,
+                    },
+                    "start": {
+                      "col": 17,
+                      "ln": 2,
+                    },
+                  },
+                  "$type": "Identifier",
+                  "name": {
+                    "position": {
+                      "end": {
+                        "col": 18,
+                        "ln": 2,
+                      },
+                      "start": {
+                        "col": 17,
+                        "ln": 2,
+                      },
+                    },
+                    "type": "identifier",
+                    "value": "k",
+                  },
+                },
+                {
+                  "$position": {
+                    "end": {
+                      "col": 23,
+                      "ln": 2,
+                    },
+                    "start": {
+                      "col": 20,
+                      "ln": 2,
+                    },
+                  },
+                  "$type": "Identifier",
+                  "name": {
+                    "position": {
+                      "end": {
+                        "col": 23,
+                        "ln": 2,
+                      },
+                      "start": {
+                        "col": 20,
+                        "ln": 2,
+                      },
+                    },
+                    "type": "identifier",
+                    "value": "bla",
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        "$keywords": [
+          {
+            "position": {
+              "end": {
+                "col": 15,
+                "ln": 3,
+              },
+              "start": {
+                "col": 9,
+                "ln": 3,
+              },
+            },
+            "type": "keyword",
+            "value": "import",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 22,
+                "ln": 3,
+              },
+              "start": {
+                "col": 18,
+                "ln": 3,
+              },
+            },
+            "type": "keyword",
+            "value": "from",
+          },
+        ],
+        "$position": {
+          "end": {
+            "col": 24,
+            "ln": 3,
+          },
+          "start": {
+            "col": 9,
+            "ln": 3,
+          },
+        },
+        "$type": "Import",
+        "source": {
+          "position": {
+            "end": {
+              "col": 24,
+              "ln": 3,
+            },
+            "start": {
+              "col": 23,
+              "ln": 3,
+            },
+          },
+          "type": "child",
+          "value": {
+            "$position": {
+              "end": {
+                "col": 24,
+                "ln": 3,
+              },
+              "start": {
+                "col": 23,
+                "ln": 3,
+              },
+            },
+            "$type": "StringLiteral",
+            "value": {
+              "position": {
+                "end": {
+                  "col": 24,
+                  "ln": 3,
+                },
+                "start": {
+                  "col": 23,
+                  "ln": 3,
+                },
+              },
+              "type": "text",
+              "value": ""path",
+            },
+          },
+        },
+        "target": {
+          "position": {
+            "end": {
+              "col": 17,
+              "ln": 3,
+            },
+            "start": {
+              "col": 16,
+              "ln": 3,
+            },
+          },
+          "type": "child",
+          "value": {
+            "$keywords": [
+              {
+                "position": {
+                  "end": {
+                    "col": 17,
+                    "ln": 3,
+                  },
+                  "start": {
+                    "col": 16,
+                    "ln": 3,
+                  },
+                },
+                "type": "keyword",
+                "value": "*",
+              },
+            ],
+            "$position": {
+              "end": {
+                "col": 17,
+                "ln": 3,
+              },
+              "start": {
+                "col": 16,
+                "ln": 3,
+              },
+            },
+            "$type": "Asterisk",
+          },
+        },
+      },
+      {
+        "$keywords": [
+          {
+            "position": {
+              "end": {
+                "col": 23,
+                "ln": 5,
+              },
+              "start": {
+                "col": 18,
+                "ln": 5,
+              },
+            },
+            "type": "keyword",
+            "value": "class",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 32,
+                "ln": 5,
+              },
+              "start": {
+                "col": 31,
+                "ln": 5,
+              },
+            },
+            "type": "keyword",
+            "value": "{",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 10,
+                "ln": 7,
+              },
+              "start": {
+                "col": 9,
+                "ln": 7,
+              },
+            },
+            "type": "keyword",
+            "value": "}",
+          },
+        ],
+        "$position": {
+          "end": {
+            "col": 10,
+            "ln": 7,
+          },
+          "start": {
+            "col": 9,
+            "ln": 5,
+          },
+        },
+        "$type": "ClassDefinition",
+        "abstract": {
+          "position": {
+            "end": {
+              "col": 17,
+              "ln": 5,
+            },
+            "start": {
+              "col": 9,
+              "ln": 5,
+            },
+          },
+          "type": "modifier",
+          "value": true,
+        },
+        "name": {
+          "position": {
+            "end": {
+              "col": 30,
+              "ln": 5,
+            },
+            "start": {
+              "col": 24,
+              "ln": 5,
+            },
+          },
+          "type": "identifier",
+          "value": "Animal",
+        },
+        "properties": {
+          "position": {
+            "end": {
+              "col": 29,
+              "ln": 6,
+            },
+            "start": {
+              "col": 13,
+              "ln": 6,
+            },
+          },
+          "type": "children",
+          "value": [
+            {
+              "$keywords": [
+                {
+                  "position": {
+                    "end": {
+                      "col": 18,
+                      "ln": 6,
+                    },
+                    "start": {
+                      "col": 17,
+                      "ln": 6,
+                    },
+                  },
+                  "type": "keyword",
+                  "value": ":",
+                },
+              ],
+              "$position": {
+                "end": {
+                  "col": 29,
+                  "ln": 6,
+                },
+                "start": {
+                  "col": 13,
+                  "ln": 6,
+                },
+              },
+              "$type": "ClassProperty",
+              "defaultValue": {
+                "position": {
+                  "end": {
+                    "col": 29,
+                    "ln": 6,
+                  },
+                  "start": {
+                    "col": 26,
+                    "ln": 6,
+                  },
+                },
+                "type": "child",
+                "value": {
+                  "$keywords": [
+                    {
+                      "position": {
+                        "end": {
+                          "col": 27,
+                          "ln": 6,
+                        },
+                        "start": {
+                          "col": 26,
+                          "ln": 6,
+                        },
+                      },
+                      "type": "keyword",
+                      "value": "=",
+                    },
+                  ],
+                  "$position": {
+                    "end": {
+                      "col": 29,
+                      "ln": 6,
+                    },
+                    "start": {
+                      "col": 26,
+                      "ln": 6,
+                    },
+                  },
+                  "$type": "ValueAssignment",
+                  "value": {
+                    "position": {
+                      "end": {
+                        "col": 29,
+                        "ln": 6,
+                      },
+                      "start": {
+                        "col": 28,
+                        "ln": 6,
+                      },
+                    },
+                    "type": "child",
+                    "value": {
+                      "$position": {
+                        "end": {
+                          "col": 29,
+                          "ln": 6,
+                        },
+                        "start": {
+                          "col": 28,
+                          "ln": 6,
+                        },
+                      },
+                      "$type": "NumberLiteral",
+                      "number": {
+                        "position": {
+                          "end": {
+                            "col": 29,
+                            "ln": 6,
+                          },
+                          "start": {
+                            "col": 28,
+                            "ln": 6,
+                          },
+                        },
+                        "type": "number",
+                        "value": 4,
+                      },
+                    },
+                  },
+                },
+              },
+              "name": {
+                "position": {
+                  "end": {
+                    "col": 17,
+                    "ln": 6,
+                  },
+                  "start": {
+                    "col": 13,
+                    "ln": 6,
+                  },
+                },
+                "type": "identifier",
+                "value": "legs",
+              },
+              "type": {
+                "position": {
+                  "end": {
+                    "col": 25,
+                    "ln": 6,
+                  },
+                  "start": {
+                    "col": 19,
+                    "ln": 6,
+                  },
+                },
+                "type": "identifier",
+                "value": "number",
+              },
+            },
+          ],
+        },
+      },
+      {
+        "$keywords": [
+          {
+            "position": {
+              "end": {
+                "col": 23,
+                "ln": 9,
+              },
+              "start": {
+                "col": 18,
+                "ln": 9,
+              },
+            },
+            "type": "keyword",
+            "value": "class",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 37,
+                "ln": 9,
+              },
+              "start": {
+                "col": 30,
+                "ln": 9,
+              },
+            },
+            "type": "keyword",
+            "value": "extends",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 45,
+                "ln": 9,
+              },
+              "start": {
+                "col": 44,
+                "ln": 9,
+              },
+            },
+            "type": "keyword",
+            "value": "{",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 10,
+                "ln": 11,
+              },
+              "start": {
+                "col": 9,
+                "ln": 11,
+              },
+            },
+            "type": "keyword",
+            "value": "}",
+          },
+        ],
+        "$position": {
+          "end": {
+            "col": 10,
+            "ln": 11,
+          },
+          "start": {
+            "col": 9,
+            "ln": 9,
+          },
+        },
+        "$type": "ClassDefinition",
+        "abstract": {
+          "position": {
+            "end": {
+              "col": 17,
+              "ln": 9,
+            },
+            "start": {
+              "col": 9,
+              "ln": 9,
+            },
+          },
+          "type": "modifier",
+          "value": true,
+        },
+        "extends": {
+          "position": {
+            "end": {
+              "col": 44,
+              "ln": 9,
+            },
+            "start": {
+              "col": 38,
+              "ln": 9,
+            },
+          },
+          "type": "identifier",
+          "value": "Animal",
+        },
+        "name": {
+          "position": {
+            "end": {
+              "col": 29,
+              "ln": 9,
+            },
+            "start": {
+              "col": 24,
+              "ln": 9,
+            },
+          },
+          "type": "identifier",
+          "value": "Beast",
+        },
+        "properties": {
+          "position": {
+            "end": {
+              "col": 40,
+              "ln": 10,
+            },
+            "start": {
+              "col": 13,
+              "ln": 10,
+            },
+          },
+          "type": "children",
+          "value": [
+            {
+              "$keywords": [
+                {
+                  "position": {
+                    "end": {
+                      "col": 18,
+                      "ln": 10,
+                    },
+                    "start": {
+                      "col": 17,
+                      "ln": 10,
+                    },
+                  },
+                  "type": "keyword",
+                  "value": ":",
+                },
+              ],
+              "$position": {
+                "end": {
+                  "col": 40,
+                  "ln": 10,
+                },
+                "start": {
+                  "col": 13,
+                  "ln": 10,
+                },
+              },
+              "$type": "ClassProperty",
+              "defaultValue": {
+                "position": {
+                  "end": {
+                    "col": 40,
+                    "ln": 10,
+                  },
+                  "start": {
+                    "col": 26,
+                    "ln": 10,
+                  },
+                },
+                "type": "child",
+                "value": {
+                  "$keywords": [
+                    {
+                      "position": {
+                        "end": {
+                          "col": 27,
+                          "ln": 10,
+                        },
+                        "start": {
+                          "col": 26,
+                          "ln": 10,
+                        },
+                      },
+                      "type": "keyword",
+                      "value": "=",
+                    },
+                  ],
+                  "$position": {
+                    "end": {
+                      "col": 40,
+                      "ln": 10,
+                    },
+                    "start": {
+                      "col": 26,
+                      "ln": 10,
+                    },
+                  },
+                  "$type": "ValueAssignment",
+                  "value": {
+                    "position": {
+                      "end": {
+                        "col": 40,
+                        "ln": 10,
+                      },
+                      "start": {
+                        "col": 28,
+                        "ln": 10,
+                      },
+                    },
+                    "type": "child",
+                    "value": {
+                      "$position": {
+                        "end": {
+                          "col": 40,
+                          "ln": 10,
+                        },
+                        "start": {
+                          "col": 28,
+                          "ln": 10,
+                        },
+                      },
+                      "$type": "NumberLiteral",
+                      "number": {
+                        "position": {
+                          "end": {
+                            "col": 40,
+                            "ln": 10,
+                          },
+                          "start": {
+                            "col": 28,
+                            "ln": 10,
+                          },
+                        },
+                        "type": "number",
+                        "value": 393483493489,
+                      },
+                    },
+                  },
+                },
+              },
+              "name": {
+                "position": {
+                  "end": {
+                    "col": 17,
+                    "ln": 10,
+                  },
+                  "start": {
+                    "col": 13,
+                    "ln": 10,
+                  },
+                },
+                "type": "identifier",
+                "value": "legs",
+              },
+              "type": {
+                "position": {
+                  "end": {
+                    "col": 25,
+                    "ln": 10,
+                  },
+                  "start": {
+                    "col": 19,
+                    "ln": 10,
+                  },
+                },
+                "type": "identifier",
+                "value": "number",
+              },
+            },
+          ],
+        },
+      },
+      {
+        "$keywords": [
+          {
+            "position": {
+              "end": {
+                "col": 14,
+                "ln": 13,
+              },
+              "start": {
+                "col": 9,
+                "ln": 13,
+              },
+            },
+            "type": "keyword",
+            "value": "class",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 26,
+                "ln": 13,
+              },
+              "start": {
+                "col": 19,
+                "ln": 13,
+              },
+            },
+            "type": "keyword",
+            "value": "extends",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 36,
+                "ln": 13,
+              },
+              "start": {
+                "col": 35,
+                "ln": 13,
+              },
+            },
+            "type": "keyword",
+            "value": "{",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 10,
+                "ln": 18,
+              },
+              "start": {
+                "col": 9,
+                "ln": 18,
+              },
+            },
+            "type": "keyword",
+            "value": "}",
+          },
+        ],
+        "$position": {
+          "end": {
+            "col": 10,
+            "ln": 18,
+          },
+          "start": {
+            "col": 9,
+            "ln": 13,
+          },
+        },
+        "$type": "ClassDefinition",
+        "extends": {
+          "position": {
+            "end": {
+              "col": 33,
+              "ln": 13,
+            },
+            "start": {
+              "col": 27,
+              "ln": 13,
+            },
+          },
+          "type": "identifier",
+          "value": "Animal",
+        },
+        "name": {
+          "position": {
+            "end": {
+              "col": 18,
+              "ln": 13,
+            },
+            "start": {
+              "col": 15,
+              "ln": 13,
+            },
+          },
+          "type": "identifier",
+          "value": "dog",
+        },
+        "properties": {
+          "position": {
+            "end": {
+              "col": 29,
+              "ln": 17,
+            },
+            "start": {
+              "col": 13,
+              "ln": 14,
+            },
+          },
+          "type": "children",
+          "value": [
+            {
+              "$position": {
+                "end": {
+                  "col": 26,
+                  "ln": 14,
+                },
+                "start": {
+                  "col": 13,
+                  "ln": 14,
+                },
+              },
+              "$type": "ClassProperty",
+              "name": {
+                "position": {
+                  "end": {
+                    "col": 26,
+                    "ln": 14,
+                  },
+                  "start": {
+                    "col": 13,
+                    "ln": 14,
+                  },
+                },
+                "type": "identifier",
+                "value": "otherProperty",
+              },
+            },
+            {
+              "$keywords": [
+                {
+                  "position": {
+                    "end": {
+                      "col": 29,
+                      "ln": 15,
+                    },
+                    "start": {
+                      "col": 28,
+                      "ln": 15,
+                    },
+                  },
+                  "type": "keyword",
+                  "value": ":",
+                },
+              ],
+              "$position": {
+                "end": {
+                  "col": 36,
+                  "ln": 15,
+                },
+                "start": {
+                  "col": 13,
+                  "ln": 15,
+                },
+              },
+              "$type": "ClassProperty",
+              "name": {
+                "position": {
+                  "end": {
+                    "col": 28,
+                    "ln": 15,
+                  },
+                  "start": {
+                    "col": 13,
+                    "ln": 15,
+                  },
+                },
+                "type": "identifier",
+                "value": "AnotherProperty",
+              },
+              "type": {
+                "position": {
+                  "end": {
+                    "col": 36,
+                    "ln": 15,
+                  },
+                  "start": {
+                    "col": 30,
+                    "ln": 15,
+                  },
+                },
+                "type": "identifier",
+                "value": "string",
+              },
+            },
+            {
+              "$position": {
+                "end": {
+                  "col": 26,
+                  "ln": 16,
+                },
+                "start": {
+                  "col": 13,
+                  "ln": 16,
+                },
+              },
+              "$type": "ClassProperty",
+              "defaultValue": {
+                "position": {
+                  "end": {
+                    "col": 26,
+                    "ln": 16,
+                  },
+                  "start": {
+                    "col": 23,
+                    "ln": 16,
+                  },
+                },
+                "type": "child",
+                "value": {
+                  "$keywords": [
+                    {
+                      "position": {
+                        "end": {
+                          "col": 24,
+                          "ln": 16,
+                        },
+                        "start": {
+                          "col": 23,
+                          "ln": 16,
+                        },
+                      },
+                      "type": "keyword",
+                      "value": "=",
+                    },
+                  ],
+                  "$position": {
+                    "end": {
+                      "col": 26,
+                      "ln": 16,
+                    },
+                    "start": {
+                      "col": 23,
+                      "ln": 16,
+                    },
+                  },
+                  "$type": "ValueAssignment",
+                  "value": {
+                    "position": {
+                      "end": {
+                        "col": 26,
+                        "ln": 16,
+                      },
+                      "start": {
+                        "col": 25,
+                        "ln": 16,
+                      },
+                    },
+                    "type": "child",
+                    "value": {
+                      "$position": {
+                        "end": {
+                          "col": 26,
+                          "ln": 16,
+                        },
+                        "start": {
+                          "col": 25,
+                          "ln": 16,
+                        },
+                      },
+                      "$type": "StringLiteral",
+                      "value": {
+                        "position": {
+                          "end": {
+                            "col": 26,
+                            "ln": 16,
+                          },
+                          "start": {
+                            "col": 25,
+                            "ln": 16,
+                          },
+                        },
+                        "type": "text",
+                        "value": ""lol",
+                      },
+                    },
+                  },
+                },
+              },
+              "name": {
+                "position": {
+                  "end": {
+                    "col": 22,
+                    "ln": 16,
+                  },
+                  "start": {
+                    "col": 13,
+                    "ln": 16,
+                  },
+                },
+                "type": "identifier",
+                "value": "okOneMore",
+              },
+            },
+            {
+              "$keywords": [
+                {
+                  "position": {
+                    "end": {
+                      "col": 21,
+                      "ln": 17,
+                    },
+                    "start": {
+                      "col": 20,
+                      "ln": 17,
+                    },
+                  },
+                  "type": "keyword",
+                  "value": ":",
+                },
+              ],
+              "$position": {
+                "end": {
+                  "col": 29,
+                  "ln": 17,
+                },
+                "start": {
+                  "col": 13,
+                  "ln": 17,
+                },
+              },
+              "$type": "ClassProperty",
+              "defaultValue": {
+                "position": {
+                  "end": {
+                    "col": 29,
+                    "ln": 17,
+                  },
+                  "start": {
+                    "col": 27,
+                    "ln": 17,
+                  },
+                },
+                "type": "child",
+                "value": {
+                  "$keywords": [
+                    {
+                      "position": {
+                        "end": {
+                          "col": 28,
+                          "ln": 17,
+                        },
+                        "start": {
+                          "col": 27,
+                          "ln": 17,
+                        },
+                      },
+                      "type": "keyword",
+                      "value": "=",
+                    },
+                  ],
+                  "$position": {
+                    "end": {
+                      "col": 29,
+                      "ln": 17,
+                    },
+                    "start": {
+                      "col": 27,
+                      "ln": 17,
+                    },
+                  },
+                  "$type": "ValueAssignment",
+                  "value": {
+                    "position": {
+                      "end": {
+                        "col": 29,
+                        "ln": 17,
+                      },
+                      "start": {
+                        "col": 28,
+                        "ln": 17,
+                      },
+                    },
+                    "type": "child",
+                    "value": {
+                      "$position": {
+                        "end": {
+                          "col": 29,
+                          "ln": 17,
+                        },
+                        "start": {
+                          "col": 28,
+                          "ln": 17,
+                        },
+                      },
+                      "$type": "StringLiteral",
+                      "value": {
+                        "position": {
+                          "end": {
+                            "col": 29,
+                            "ln": 17,
+                          },
+                          "start": {
+                            "col": 28,
+                            "ln": 17,
+                          },
+                        },
+                        "type": "text",
+                        "value": ""yes",
+                      },
+                    },
+                  },
+                },
+              },
+              "name": {
+                "position": {
+                  "end": {
+                    "col": 20,
+                    "ln": 17,
+                  },
+                  "start": {
+                    "col": 13,
+                    "ln": 17,
+                  },
+                },
+                "type": "identifier",
+                "value": "forReal",
+              },
+              "type": {
+                "position": {
+                  "end": {
+                    "col": 27,
+                    "ln": 17,
+                  },
+                  "start": {
+                    "col": 21,
+                    "ln": 17,
+                  },
+                },
+                "type": "identifier",
+                "value": "string",
+              },
+            },
+          ],
+        },
+      },
+      {
+        "$keywords": [
+          {
+            "position": {
+              "end": {
+                "col": 12,
+                "ln": 20,
+              },
+              "start": {
+                "col": 6,
+                "ln": 20,
+              },
+            },
+            "type": "keyword",
+            "value": "import",
+          },
+          {
+            "position": {
+              "end": {
+                "col": 24,
+                "ln": 20,
+              },
+              "start": {
+                "col": 20,
+                "ln": 20,
+              },
+            },
+            "type": "keyword",
+            "value": "from",
+          },
+        ],
+        "$position": {
+          "end": {
+            "col": 25,
+            "ln": 20,
+          },
+          "start": {
+            "col": 6,
+            "ln": 20,
+          },
+        },
+        "$type": "Import",
+        "source": {
+          "position": {
+            "end": {
+              "col": 25,
+              "ln": 20,
+            },
+            "start": {
+              "col": 24,
+              "ln": 20,
+            },
+          },
+          "type": "child",
+          "value": {
+            "$position": {
+              "end": {
+                "col": 25,
+                "ln": 20,
+              },
+              "start": {
+                "col": 24,
+                "ln": 20,
+              },
+            },
+            "$type": "StringLiteral",
+            "value": {
+              "position": {
+                "end": {
+                  "col": 25,
+                  "ln": 20,
+                },
+                "start": {
+                  "col": 24,
+                  "ln": 20,
+                },
+              },
+              "type": "text",
+              "value": ""lib",
+            },
+          },
+        },
+        "target": {
+          "position": {
+            "end": {
+              "col": 20,
+              "ln": 20,
+            },
+            "start": {
+              "col": 13,
+              "ln": 20,
+            },
+          },
+          "type": "child",
+          "value": {
+            "$keywords": [
+              {
+                "position": {
+                  "end": {
+                    "col": 14,
+                    "ln": 20,
+                  },
+                  "start": {
+                    "col": 13,
+                    "ln": 20,
+                  },
+                },
+                "type": "keyword",
+                "value": "{",
+              },
+              {
+                "position": {
+                  "end": {
+                    "col": 20,
+                    "ln": 20,
+                  },
+                  "start": {
+                    "col": 19,
+                    "ln": 20,
+                  },
+                },
+                "type": "keyword",
+                "value": "}",
+              },
+            ],
+            "$position": {
+              "end": {
+                "col": 20,
+                "ln": 20,
+              },
+              "start": {
+                "col": 13,
+                "ln": 20,
+              },
+            },
+            "$type": "ImportParts",
+            "values": {
+              "position": {
+                "end": {
+                  "col": 19,
+                  "ln": 20,
+                },
+                "start": {
+                  "col": 14,
+                  "ln": 20,
+                },
+              },
+              "type": "children",
+              "value": [
+                {
+                  "$position": {
+                    "end": {
+                      "col": 19,
+                      "ln": 20,
+                    },
+                    "start": {
+                      "col": 14,
+                      "ln": 20,
+                    },
+                  },
+                  "$type": "Identifier",
+                  "name": {
+                    "position": {
+                      "end": {
+                        "col": 19,
+                        "ln": 20,
+                      },
+                      "start": {
+                        "col": 14,
+                        "ln": 20,
+                      },
+                    },
+                    "type": "identifier",
+                    "value": "bonus",
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    ],
+  },
+}
+`;

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "lib": ["ES2022"],
+    "declaration": true,
+    "experimentalDecorators": true,
+    // This allows working with modules whose @types packages use `export = ...` instead of `export default ...`, which
+    // is something that may be done for compatibility with older TypeScript versions. It doesn't seem to end in a situation
+    // where without this option the import ends up usable though (specifically couldn't get react-timeago to import with
+    // its typings, but without errors with this option turned off).
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "noEmitOnError": false,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "newLine": "LF",
+    "strict": true,
+    "resolveJsonModule": true,
+    "types": ["node", "jest"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
