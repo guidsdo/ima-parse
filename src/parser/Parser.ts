@@ -1,7 +1,7 @@
 import { RuleParser } from "./RuleParser";
 import { Cursor, PhraseKind, Position, Result } from "../helpers/helpers";
-import { Grammar } from "./ruleTypes";
-import { CharCodes, matchCharCodes } from "../helpers/charCodeHelpers";
+import { Grammar } from "./grammarTypes";
+import { CharCode, CharCodes, defaultNumberChars, defaultValidChars, defaultWordChars, matchCharCodes } from "../helpers/charCodeHelpers";
 import { Input } from "./definitionParsers";
 
 export type ParsePartRef = { rule: string; part?: number };
@@ -22,11 +22,19 @@ export class Parser {
     private phraseKind: PhraseKind = "chars";
     private cursor: Cursor = { ln: 1, col: 1 };
 
+    private wordChars: CharCode[] = defaultWordChars;
+    private numberChars: CharCode[] = defaultNumberChars;
+    private validNonWordChars: CharCode[] = defaultValidChars;
+
     readonly brokenContent: BrokenContent[] = [];
 
     constructor(private grammar: Grammar) {
         this.topLevelParser = new RuleParser(this.grammar.TopLevel, this.grammar);
         this.currentParser = this.topLevelParser;
+
+        if (grammar.wordChars) this.wordChars = grammar.wordChars;
+        if (grammar.numberChars) this.numberChars = grammar.numberChars;
+        if (grammar.validChars) this.validNonWordChars = grammar.validChars;
     }
 
     getTopLevelParser(): RuleParser {
@@ -61,9 +69,9 @@ export class Parser {
         }
 
         // TODO: Let the user specify how identifiers are built so we can allow words with -, $, %, # etc
-        const receivedWordChar = matchCharCodes(charCode, CharCodes.lettersUpper, CharCodes.lettersLower, CharCodes.underscore);
-        const receivedNumberChar = matchCharCodes(charCode, CharCodes.numbers);
-        const receivedValidNonWordChar = !receivedWordChar && !receivedNumberChar && matchCharCodes(charCode, CharCodes.relevantChars);
+        const receivedWordChar = matchCharCodes(charCode, ...this.wordChars);
+        const receivedNumberChar = matchCharCodes(charCode, ...this.numberChars);
+        const receivedValidNonWordChar = !receivedWordChar && !receivedNumberChar && matchCharCodes(charCode, ...this.validNonWordChars);
 
         // Here we try define the phrase OR continue the current phrase, which requires the character to match the type
         if (

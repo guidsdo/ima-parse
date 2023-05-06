@@ -1,5 +1,5 @@
 import { RuleParser } from "./RuleParser";
-import { Grammar, DefinitionRules, DefinitionPaths, DefinitionPart, SimpleDefinitionPart } from "./ruleTypes";
+import { Grammar, DefinitionRules, DefinitionPaths, DefinitionPart, SimpleDefinitionPart } from "./grammarTypes";
 import { assertNever, Cursor, getRules, PhraseKind } from "../helpers/helpers";
 
 export type ParsedPartBase = {

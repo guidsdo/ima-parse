@@ -1,6 +1,6 @@
 import { Cursor } from "../../../helpers/helpers";
 import { isDefinitionSatisfied, ParsedPart, ParsedSimplePart } from "../../definitionParsers";
-import { DefinitionPart } from "../../ruleTypes";
+import { DefinitionPart } from "../../grammarTypes";
 
 describe("definitionParsers > isDefinitionSatisfied()", () => {
     const START_POS: Cursor = { col: 0, ln: 0 } as const;

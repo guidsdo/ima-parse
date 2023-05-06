@@ -1,4 +1,4 @@
-import { DefinitionRules, RuleDefinition } from "../parser/ruleTypes";
+import { DefinitionRules, RuleDefinition } from "../parser/grammarTypes";
 
 export type ResultFailed<E> = { success: false; error: E };
 

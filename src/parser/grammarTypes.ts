@@ -1,3 +1,5 @@
+import { CharCode } from "../helpers/charCodeHelpers";
+
 type DefinitionPartBase = {
     type: string;
     key?: string;
@@ -92,4 +94,10 @@ export type DefinitionPart = SimpleDefinitionPart | DefinitionRules | Definition
  */
 export type RuleDefinition = { name: string; definition: DefinitionPart[] };
 
-export type Grammar = { TopLevel: RuleDefinition; global: DefinitionRules };
+export type Grammar = {
+    TopLevel: RuleDefinition;
+    global: DefinitionRules;
+    wordChars?: CharCode[];
+    numberChars?: CharCode[];
+    validChars?: CharCode[];
+};

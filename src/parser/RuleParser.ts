@@ -1,5 +1,5 @@
 import { ParsedRule, isDefinitionSatisfied, Input, ParsedPart, parseInput } from "./definitionParsers";
-import { RuleDefinition, Grammar } from "./ruleTypes";
+import { RuleDefinition, Grammar } from "./grammarTypes";
 import { assertNever, Cursor, Position, Result } from "../helpers/helpers";
 
 export class RuleParser {

@@ -12,7 +12,7 @@ import {
     DefinitionPaths,
     SimpleDefinitionPart,
     DefinitionRules
-} from "../parser/ruleTypes";
+} from "../parser/grammarTypes";
 
 export type BuildRuleFn = (parsedRule: RuleParser, ruleBuilders: RuleBuilders) => RuleContentTree;
 export type RuleBuilders = Map<RuleDefinition, BuildRuleFn>;

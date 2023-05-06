@@ -1,4 +1,4 @@
-import { RuleDefinition } from "../ruleTypes";
+import { RuleDefinition } from "../grammarTypes";
 
 export const asteriskRule: RuleDefinition = {
     name: "Asterisk",

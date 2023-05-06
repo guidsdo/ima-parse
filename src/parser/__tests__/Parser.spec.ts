@@ -1,6 +1,6 @@
 import { ParsedRule } from "../definitionParsers";
 import { Parser } from "../Parser";
-import { Grammar } from "../ruleTypes";
+import { Grammar } from "../grammarTypes";
 import { asteriskRule, importRule } from "./testHelpers";
 
 describe("Parser", () => {

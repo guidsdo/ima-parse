@@ -1,6 +1,6 @@
 import { Cursor } from "../../../helpers/helpers";
 import { Input, matchPathsPart, ParseContext, ParseInfo } from "../../definitionParsers";
-import { DefinitionPart, DefinitionPaths, SimpleDefinitionPart } from "../../ruleTypes";
+import { DefinitionPart, DefinitionPaths, SimpleDefinitionPart } from "../../grammarTypes";
 
 describe("definitionParsers > matchPathsPart()", () => {
     const START_POS: Cursor = { col: 0, ln: 0 } as const;

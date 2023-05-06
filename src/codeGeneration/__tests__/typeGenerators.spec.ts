@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { Parser } from "../../parser/Parser";
-import { Grammar } from "../../parser/ruleTypes";
+import { Grammar } from "../../parser/grammarTypes";
 import { classRule, importRule } from "../../parser/__tests__/testHelpers";
 import { getTypesAndBuildersFromGrammar, buildContentTree } from "../typeGenerators";
 
