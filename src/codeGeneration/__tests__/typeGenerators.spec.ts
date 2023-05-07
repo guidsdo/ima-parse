@@ -145,7 +145,7 @@ export type NumberLiteral = $RuleContentTreeBase & {
     });
 });
 
-function compileTypeScriptCode(code: string, libs: string[] = ["ES2022"]): ts.Diagnostic[] {
+function compileTypeScriptCode(code: string, libs: string[] = ["es2022"]): ts.Diagnostic[] {
     const options = ts.getDefaultCompilerOptions();
     const realHost = ts.createCompilerHost(options, true);
 
