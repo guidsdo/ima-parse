@@ -24,7 +24,7 @@ export class Parser {
 
     private wordChars: CharCode[] = defaultWordChars;
     private numberChars: CharCode[] = defaultNumberChars;
-    private validNonWordChars: CharCode[] = defaultValidChars;
+    private validChars: CharCode[] = defaultValidChars;
 
     readonly brokenContent: BrokenContent[] = [];
 
@@ -34,7 +34,7 @@ export class Parser {
 
         if (grammar.wordChars) this.wordChars = grammar.wordChars;
         if (grammar.numberChars) this.numberChars = grammar.numberChars;
-        if (grammar.validChars) this.validNonWordChars = grammar.validChars;
+        if (grammar.validChars) this.validChars = grammar.validChars;
     }
 
     getTopLevelParser(): RuleParser {
@@ -71,7 +71,7 @@ export class Parser {
         // TODO: Let the user specify how identifiers are built so we can allow words with -, $, %, # etc
         const receivedWordChar = matchCharCodes(charCode, ...this.wordChars);
         const receivedNumberChar = matchCharCodes(charCode, ...this.numberChars);
-        const receivedValidNonWordChar = !receivedWordChar && !receivedNumberChar && matchCharCodes(charCode, ...this.validNonWordChars);
+        const receivedValidNonWordChar = !receivedWordChar && !receivedNumberChar && matchCharCodes(charCode, ...this.validChars);
 
         // Here we try define the phrase OR continue the current phrase, which requires the character to match the type
         if (

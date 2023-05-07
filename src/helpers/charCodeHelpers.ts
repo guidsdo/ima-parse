@@ -13,7 +13,7 @@ export const CharCodes = {
 
 export const defaultWordChars: CharCode[] = [CharCodes.lettersUpper, CharCodes.lettersLower, CharCodes.underscore];
 export const defaultNumberChars: CharCode[] = [CharCodes.numbers];
-export const defaultValidChars: CharCode[] = CharCodes.relevantChars;
+export const defaultValidChars: CharCode[] = [CharCodes.relevantChars];
 
 export function matchCharCodes(input: number, ...nrRanges: CharCode[]) {
     for (const nrOrRange of nrRanges) {
