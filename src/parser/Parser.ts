@@ -68,7 +68,6 @@ export class Parser {
             return;
         }
 
-        // TODO: Let the user specify how identifiers are built so we can allow words with -, $, %, # etc
         const receivedWordChar = matchCharCodes(charCode, ...this.wordChars);
         const receivedNumberChar = matchCharCodes(charCode, ...this.numberChars);
         const receivedValidNonWordChar = !receivedWordChar && !receivedNumberChar && matchCharCodes(charCode, ...this.validChars);
