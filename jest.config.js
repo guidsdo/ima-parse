@@ -13,7 +13,7 @@ module.exports = {
 
     // An array of regexp pattern strings used to skip coverage collection
     coveragePathIgnorePatterns: ["/node_modules/", "__tests__", "__mocks__", ".json", ".js", "index.ts"],
-    collectCoverageFrom: ["**/src/**/*.ts"],
+    collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
 
     // Log all the individual tests
     verbose: true,
@@ -26,6 +26,8 @@ module.exports = {
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
     testPathIgnorePatterns: ["/node_modules/", "/dist"],
-    testMatch: ["**/__tests__/**/*.spec.ts"]
+    testMatch: ["**/__tests__/**/*.spec.ts"],
+
+    roots: ["<rootDir>/src/"]
     // setupFiles: ["<rootDir>/src/__tests__/testSetup.ts"]
 };
