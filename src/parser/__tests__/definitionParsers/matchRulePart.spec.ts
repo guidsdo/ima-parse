@@ -1,7 +1,7 @@
 import { Cursor } from "../../../helpers/helpers";
 import { Input, matchRulePart, ParseContext, ParsedRule, ParseInfo } from "../../definitionParsers";
 import { RuleParser } from "../../RuleParser";
-import { DefinitionPart, RuleDefinition, DefinitionRules } from "../../grammarTypes";
+import { DefinitionPart, GrammarRule, DefinitionRules } from "../../grammarTypes";
 
 describe("definitionParsers > matchRulePart()", () => {
     const START_POS: Cursor = { col: 0, ln: 0 } as const;
@@ -9,7 +9,7 @@ describe("definitionParsers > matchRulePart()", () => {
     const SIMPLE_PART_DATA = { type: "simple", startPos: START_POS, endPos: END_POS, index: 0 } as const;
 
     // Rule used for testing
-    let simpleRule: RuleDefinition;
+    let simpleRule: GrammarRule;
     let input: Input;
 
     let parseInfoBase: Omit<ParseInfo<DefinitionPart, any>, "definition">;
@@ -41,11 +41,14 @@ describe("definitionParsers > matchRulePart()", () => {
 
     it("should match a deep child rule", () => {
         // Arrange
-        const layer1: RuleDefinition = { name: "l1", definition: [{ type: "rules", rules: [simpleRule], key: "l1", optional: false }] };
-        const layer2: RuleDefinition = { name: "l2", definition: [{ type: "rules", rules: [layer1], key: "1", optional: false }] };
-        const layer3: RuleDefinition = { name: "l3", definition: [{ type: "rules", rules: [layer2], key: "2", optional: false }] };
-        const layer4: RuleDefinition = { name: "l4", definition: [{ type: "rules", rules: [layer3], key: "3", optional: false }] };
-        const layer5: RuleDefinition = { name: "l5", definition: [{ type: "rules", rules: [layer4], key: "4", optional: false }] };
+        const layer1: GrammarRule = {
+            name: "l1",
+            definition: [{ type: "rules", rules: [simpleRule], key: "l1", optional: false }]
+        };
+        const layer2: GrammarRule = { name: "l2", definition: [{ type: "rules", rules: [layer1], key: "1", optional: false }] };
+        const layer3: GrammarRule = { name: "l3", definition: [{ type: "rules", rules: [layer2], key: "2", optional: false }] };
+        const layer4: GrammarRule = { name: "l4", definition: [{ type: "rules", rules: [layer3], key: "3", optional: false }] };
+        const layer5: GrammarRule = { name: "l5", definition: [{ type: "rules", rules: [layer4], key: "4", optional: false }] };
 
         // Act
         input.chars = "SimpleWord";
@@ -120,7 +123,7 @@ describe("definitionParsers > matchRulePart()", () => {
 
     it("should allow parsing multiple rules", () => {
         // Arrange
-        const otherRule: RuleDefinition = { name: "OtherRule", definition: [{ type: "keyword", phrase: "otherWord" }] };
+        const otherRule: GrammarRule = { name: "OtherRule", definition: [{ type: "keyword", phrase: "otherWord" }] };
         const definition: DefinitionRules = { type: "rules", rules: [otherRule, simpleRule], key: "k", optional: false };
 
         input.chars = "SimpleWord";

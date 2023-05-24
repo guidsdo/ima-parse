@@ -2,7 +2,7 @@ import { assertNever, getRules, Position } from "../helpers/helpers";
 import { ParsedPartBase, ParsedPath, ParsedRule, ParsedSimplePart } from "../parser/definitionParsers";
 import { RuleParser } from "../parser/RuleParser";
 import {
-    RuleDefinition,
+    GrammarRule,
     Grammar,
     DefinitionPart,
     DefinitionModifiers,
@@ -15,7 +15,7 @@ import {
 } from "../parser/grammarTypes";
 
 export type BuildRuleFn = (parsedRule: RuleParser, ruleBuilders: RuleBuilders) => RuleContentTree;
-export type RuleBuilders = Map<RuleDefinition, BuildRuleFn>;
+export type RuleBuilders = Map<GrammarRule, BuildRuleFn>;
 
 type ValueTypeInfo = { type: string; value: string; isArray?: boolean; optional?: boolean };
 type ValueInfo = { type: string; value: any; position: Position };
@@ -48,12 +48,12 @@ export function buildContentTree<T = RuleContentTree>(ruleBuilders: RuleBuilders
  * Read the `Grammar` and generate types that parsed data will adhere to. The rulebuilders should be used to actually build the content tree
  */
 export function getTypesAndBuildersFromGrammar(grammar: Grammar): { types: string[]; ruleBuilders: RuleBuilders } {
-    const ruleDefinitions = getAllRuleDefinitions(grammar);
+    const grammarRules = getAllGrammarRules(grammar);
 
     const ruleBuilders: RuleBuilders = new Map();
     const ruleTypeDefs: string[] = [];
     const typeNames: string[] = [];
-    for (const rule of ruleDefinitions) {
+    for (const rule of grammarRules) {
         const [ruleTypeTree, buildRuleFn] = getRuleTypeTreeAndBuilder(rule);
 
         typeNames.push(rule.name);
@@ -90,7 +90,7 @@ export function getTypesAndBuildersFromGrammar(grammar: Grammar): { types: strin
 /**
  * Get the types and builder function for a specific rule.
  */
-function getRuleTypeTreeAndBuilder(rule: RuleDefinition): [RuleTypeTree, BuildRuleFn] {
+function getRuleTypeTreeAndBuilder(rule: GrammarRule): [RuleTypeTree, BuildRuleFn] {
     const ruleTypeTree: RuleTypeTree = { $type: rule.name, parts: new Map() };
     const rulePartBuilders = prepareParts(rule.definition, ruleTypeTree);
 
@@ -249,12 +249,12 @@ function getPositionForSimplePart(parsedPart: ParsedSimplePart): Position {
     return { start: { ...parsedPart.startPos }, end: { ...parsedPart.endPos } };
 }
 
-function getAllRuleDefinitions(grammar: Grammar): Set<RuleDefinition> {
-    const uniqueDefinitions = new Set<RuleDefinition>([grammar.TopLevel]);
+function getAllGrammarRules(grammar: Grammar): Set<GrammarRule> {
+    const uniqueDefinitions = new Set<GrammarRule>([grammar.TopLevel]);
     const uniqueDefinitionNames = new Set<string>([grammar.TopLevel.name]);
 
-    for (const ruleDefinition of uniqueDefinitions) {
-        for (const definitionPart of ruleDefinition.definition) {
+    for (const grammarRule of uniqueDefinitions) {
+        for (const definitionPart of grammarRule.definition) {
             if (definitionPart.type !== "rules") continue;
 
             getRules(definitionPart).forEach(rule => {

@@ -1,7 +1,7 @@
 import { Cursor } from "../../../helpers/helpers";
 import { Input, ParseContext, ParseInfo, parseInput } from "../../definitionParsers";
 import { RuleParser } from "../../RuleParser";
-import { DefinitionPart, RuleDefinition, Grammar, SimpleDefinitionPart } from "../../grammarTypes";
+import { DefinitionPart, GrammarRule, Grammar, SimpleDefinitionPart } from "../../grammarTypes";
 
 describe("definitionParsers > parseInput()", () => {
     const START_POS: Cursor = { col: 0, ln: 0 } as const;
@@ -9,7 +9,7 @@ describe("definitionParsers > parseInput()", () => {
     const SIMPLE_PART_DATA = { type: "simple", startPos: START_POS, endPos: END_POS, index: 0 } as const;
 
     // Rules used for testing
-    let simpleRule: RuleDefinition;
+    let simpleRule: GrammarRule;
 
     let input: Input;
     let context: ParseContext;

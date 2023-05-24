@@ -74,7 +74,7 @@ export type DefinitionIdentifier = DefinitionPartBase & {
 export type DefinitionRules = DefinitionPartBase & {
     type: "rules";
     key: string;
-    rules: RuleDefinition[] | (() => RuleDefinition[]);
+    rules: GrammarRule[] | (() => GrammarRule[]);
     optional: boolean;
     /** Only allow one of the rules once */
     singular?: boolean;
@@ -92,10 +92,10 @@ export type DefinitionPart = SimpleDefinitionPart | DefinitionRules | Definition
  * Define a 'rule' that can be referred to from other rules (where you allow it). Make sure that the definition parts within are
  * NON-ambiguous! All array definitions are parsed in order, so take that into account when defining.
  */
-export type RuleDefinition = { name: string; definition: DefinitionPart[] };
+export type GrammarRule = { name: string; definition: DefinitionPart[] };
 
 export type Grammar = {
-    TopLevel: RuleDefinition;
+    TopLevel: GrammarRule;
     global: DefinitionRules;
     wordChars?: CharCode[];
     numberChars?: CharCode[];

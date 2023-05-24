@@ -1,4 +1,4 @@
-import { DefinitionRules, RuleDefinition } from "../parser/grammarTypes";
+import { DefinitionRules, GrammarRule } from "../parser/grammarTypes";
 
 export type ResultFailed<E> = { success: false; error: E };
 
@@ -19,6 +19,6 @@ export function assertNever(x: never): never {
     throw new Error("Unexpected object: " + JSON.stringify(x));
 }
 
-export function getRules(ruleReference: DefinitionRules): RuleDefinition[] {
+export function getRules(ruleReference: DefinitionRules): GrammarRule[] {
     return typeof ruleReference.rules === "function" ? ruleReference.rules() : ruleReference.rules;
 }

@@ -228,8 +228,8 @@ export function matchRulePart({ definition, input, index, context, previousParse
         if (definition.singular) return undefined;
     }
 
-    for (const ruleDefinition of getRules(definition)) {
-        const childParser = new RuleParser(ruleDefinition, context.grammar, context.parser);
+    for (const grammarRule of getRules(definition)) {
+        const childParser = new RuleParser(grammarRule, context.grammar, context.parser);
         const parseResult = childParser.parsePhrase(input);
 
         if (parseResult.success) {

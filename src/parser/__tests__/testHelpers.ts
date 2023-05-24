@@ -1,26 +1,26 @@
-import { RuleDefinition } from "../grammarTypes";
+import { GrammarRule } from "../grammarTypes";
 
-export const asteriskRule: RuleDefinition = {
+export const asteriskRule: GrammarRule = {
     name: "Asterisk",
     definition: [{ type: "keyword", phrase: "*" }]
 };
 
-const identifierRule: RuleDefinition = {
+const identifierRule: GrammarRule = {
     name: "Identifier",
     definition: [{ type: "identifier", key: "name" }]
 };
 
-const stringLiteralRule: RuleDefinition = {
+const stringLiteralRule: GrammarRule = {
     name: "StringLiteral",
     definition: [{ type: "text", startPhrase: '"', endPhrase: '"', key: "value" }]
 };
 
-const numberLiteralRule: RuleDefinition = {
+const numberLiteralRule: GrammarRule = {
     name: "NumberLiteral",
     definition: [{ type: "number", key: "number" }]
 };
 
-const importSpecifiers: RuleDefinition = {
+const importSpecifiers: GrammarRule = {
     name: "ImportParts",
     definition: [
         { type: "keyword", phrase: "{" },
@@ -29,7 +29,7 @@ const importSpecifiers: RuleDefinition = {
     ]
 };
 
-export const importRule: RuleDefinition = {
+export const importRule: GrammarRule = {
     name: "Import",
     definition: [
         { type: "keyword", phrase: "import" },
@@ -39,7 +39,7 @@ export const importRule: RuleDefinition = {
     ]
 };
 
-const valueAssignment: RuleDefinition = {
+const valueAssignment: GrammarRule = {
     name: "ValueAssignment",
     definition: [
         { type: "keyword", phrase: "=" },
@@ -47,7 +47,7 @@ const valueAssignment: RuleDefinition = {
     ]
 };
 
-export const classProperty: RuleDefinition = {
+export const classProperty: GrammarRule = {
     name: "ClassProperty",
     definition: [
         { type: "identifier", key: "name" },
@@ -65,7 +65,7 @@ export const classProperty: RuleDefinition = {
     ]
 };
 
-export const classRule: RuleDefinition = {
+export const classRule: GrammarRule = {
     name: "ClassDefinition",
     definition: [
         { type: "modifiers", phrases: ["abstract"], optional: true },
