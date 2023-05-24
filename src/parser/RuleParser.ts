@@ -1,5 +1,5 @@
 import { ParsedRule, isDefinitionSatisfied, Input, ParsedPart, parseInput } from "./definitionParsers";
-import { RuleDefinition, Grammar } from "./grammarTypes";
+import { GrammarRule, Grammar } from "./grammarTypes";
 import { assertNever, Cursor, Position, Result } from "../helpers/helpers";
 
 export class RuleParser {
@@ -8,7 +8,7 @@ export class RuleParser {
     /** Rules that are not part of the definition of this rule but are children of this one (comments/macros and such) */
     globalParsedParts: ParsedRule[] = [];
 
-    constructor(public rule: RuleDefinition, public grammar: Grammar, public parent?: RuleParser) {}
+    constructor(public rule: GrammarRule, public grammar: Grammar, public parent?: RuleParser) {}
 
     /**
      * Try to parse whatever phrase is given with the current or next part. It's not up to us to decide if it must succeed, we just try
