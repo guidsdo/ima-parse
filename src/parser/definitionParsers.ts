@@ -12,6 +12,8 @@ export type ParsedPartBase = {
     isFinished?: boolean;
     /** Indicates the current part will accept all characters */
     textMode?: boolean;
+    /** Indicates that the last parsed phrase was purposfully ignored and can be reused for other rules */
+    ignoredPhrase?: boolean;
 };
 
 export type ParsedRule = ParsedPartBase & {
@@ -147,14 +149,17 @@ export function matchSimplePart({ definition, input, index, previousParsedPart }
             if (previousParsedPart) break;
             if (definition.phrase === chars) return { type: "simple", index, value: [chars], startPos, endPos, isFinished: true };
             break;
+
         case "identifier":
             if (previousParsedPart) break;
             if (phraseKind === "word") return { type: "simple", index, value: [chars], startPos, endPos, isFinished: true };
             break;
+
         case "number":
             if (previousParsedPart) break;
             if (phraseKind === "number") return { type: "simple", index, value: [chars], startPos, endPos, isFinished: true };
             break;
+
         case "modifiers":
             const match = definition.phrases.includes(chars);
             if (previousParsedPart) {
@@ -174,23 +179,37 @@ export function matchSimplePart({ definition, input, index, previousParsedPart }
                 return { type: "simple", index, value: [chars], startPos, endPos, isFinished };
             }
             break;
-        case "text":
-            // TODO: Char escaping with \
-            // TODO: Allow endChar to be something else than a single character (backtracking?)
-            if (previousParsedPart) {
-                if (chars === definition.endPhrase) {
-                    previousParsedPart.isFinished = true;
-                    previousParsedPart.textMode = false;
-                } else {
-                    previousParsedPart.value[0] += chars;
-                }
 
-                previousParsedPart.overrideSamePart = true;
-                return previousParsedPart;
+        case "text": {
+            // TODO: Char escaping with \
+            let part: ParsedSimplePart | undefined;
+
+            if (previousParsedPart) {
+                part = previousParsedPart;
+            } else if (!definition.startPhrase || chars === definition.startPhrase) {
+                part = { type: "simple", index, value: [""], startPos, endPos, textMode: true };
             }
 
-            if (chars === definition.startPhrase) return { type: "simple", index, value: [chars], startPos, endPos, textMode: true };
-            break;
+            if (part) {
+                let text = part.value[0] + chars;
+
+                // Make sure to ignore the matched startprhase, if there was any
+                if (text.slice(definition.startPhrase?.length).endsWith(definition.endPhrase)) {
+                    part.isFinished = true;
+                    part.textMode = false;
+
+                    part.ignoredPhrase = definition.excludeEndPhrase;
+
+                    if (definition.excludeEndPhrase) text = text.slice(0, text.length - definition.endPhrase.length);
+                }
+
+                part.value[0] = text;
+                if (previousParsedPart) part.overrideSamePart = true;
+            }
+
+            return part;
+        }
+
         default:
             assertNever(definition);
     }
