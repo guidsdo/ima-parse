@@ -13,8 +13,9 @@ type DefinitionPartBase = {
 export type DefinitionText = DefinitionPartBase & {
     type: "text";
     key: string;
-    startPhrase: string;
+    startPhrase?: string;
     endPhrase: string;
+    excludeEndPhrase?: boolean;
 };
 
 /**

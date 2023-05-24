@@ -65,7 +65,10 @@ export class Parser {
             this.phrase = char;
             this.advanceCursor(receivedNewline);
             this.parseCurrentPhrase(true);
-            return;
+
+            // A text rule can decide that it's done, after it has received a certain character (which it doesn't include).
+            // Example: <node>text</node> where < can be the end of the text but also the start of something else.
+            if (!this.currentParser.parsedParts.at(-1)?.ignoredPhrase) return;
         }
 
         const receivedWordChar = matchCharCodes(charCode, ...this.wordChars);

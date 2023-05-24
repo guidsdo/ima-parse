@@ -267,7 +267,11 @@ describe("definitionParsers > matchSimplePart()", () => {
     });
 
     describe("when matching a text part", () => {
-        const definition: DefinitionText = { type: "text", startPhrase: "//", endPhrase: "\n", key: "k" } as const;
+        let definition: DefinitionText;
+
+        beforeEach(() => {
+            definition = { type: "text", startPhrase: "//", endPhrase: "\n", key: "k" };
+        });
 
         it("should not match anything else than the start phrase", () => {
             input.chars = "\n";
@@ -286,6 +290,16 @@ describe("definitionParsers > matchSimplePart()", () => {
             const result = matchSimplePart({ definition, ...parseInfoBase });
 
             expect(result).toEqual({ ...SIMPLE_PART_DATA, value: ["//"], textMode: true });
+        });
+
+        it("should match all when there is not startphrase", () => {
+            definition.startPhrase = undefined;
+
+            input.chars = "blabla";
+
+            const result = matchSimplePart({ definition, ...parseInfoBase });
+
+            expect(result).toEqual({ ...SIMPLE_PART_DATA, value: ["blabla"], textMode: true });
         });
 
         describe("when the startPhrase has been matched in the previous part", () => {
@@ -307,13 +321,13 @@ describe("definitionParsers > matchSimplePart()", () => {
 
             it("should allow adding multiple matches", () => {
                 input.chars = " ";
-                matchSimplePart({ definition, ...parseInfoBase, previousParsedPart });
+                previousParsedPart = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart })!;
 
                 input.chars = "a";
-                matchSimplePart({ definition, ...parseInfoBase, previousParsedPart });
+                previousParsedPart = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart })!;
 
                 input.chars = "b";
-                matchSimplePart({ definition, ...parseInfoBase, previousParsedPart });
+                previousParsedPart = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart })!;
 
                 input.chars = "!";
                 const result = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart });
@@ -322,10 +336,67 @@ describe("definitionParsers > matchSimplePart()", () => {
             });
 
             it("should match the end phrase", () => {
+                definition.endPhrase = "cd!";
+
+                input.chars = "a";
+                previousParsedPart = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart })!;
+
+                input.chars = "b";
+                previousParsedPart = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart })!;
+
+                input.chars = "cd";
+                previousParsedPart = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart })!;
+
+                input.chars = "!";
+                const result = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart });
+
+                expect(result).toEqual({
+                    ...SIMPLE_PART_DATA,
+                    value: ["//abcd!"],
+                    textMode: false,
+                    overrideSamePart: true,
+                    isFinished: true
+                });
+            });
+
+            it("should match the end phrase if it's the same as the start phrase", () => {
+                definition.endPhrase = "//";
+
+                input.chars = "a";
+                previousParsedPart = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart })!;
+
+                input.chars = "b";
+                previousParsedPart = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart })!;
+
+                input.chars = "/";
+                previousParsedPart = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart })!;
+
+                input.chars = "/";
+                const result = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart });
+
+                expect(result).toEqual({
+                    ...SIMPLE_PART_DATA,
+                    value: ["//ab//"],
+                    textMode: false,
+                    overrideSamePart: true,
+                    isFinished: true
+                });
+            });
+
+            it("should allow excluding the end phrase", () => {
+                definition.excludeEndPhrase = true;
+
                 input.chars = "\n";
                 const result = matchSimplePart({ definition, ...parseInfoBase, previousParsedPart });
 
-                expect(result).toEqual({ ...SIMPLE_PART_DATA, value: ["//"], textMode: false, overrideSamePart: true, isFinished: true });
+                expect(result).toEqual({
+                    ...SIMPLE_PART_DATA,
+                    value: ["//"],
+                    textMode: false,
+                    overrideSamePart: true,
+                    isFinished: true,
+                    ignoredPhrase: true
+                });
             });
         });
     });
