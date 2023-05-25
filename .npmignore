@@ -2,6 +2,7 @@
 # assets
 # /lib/
 /coverage/
+/examples/
 /src/
 .gitignore
 .prettierrc

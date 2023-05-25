@@ -1,6 +1,6 @@
 {
   "name": "ima-parse",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Easy Simple Parser, that only requires a Grammar JSON to output an AST.",
   "main": "lib/src/index.js",
   "module": "lib/src/index.js",
@@ -11,6 +11,14 @@
     "test:watch": "jest --watch --coverage"
   },
   "author": "guidsdo <guidsdo@users.noreply.github.com>",
+  "homepage": "https://github.com/guidsdo/ima-parse",
+  "bugs": {
+    "url": "https://github.com/guidsdo/ima-parse/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guidsdo/ima-parse.git"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "prettier": "^2.8.1",
