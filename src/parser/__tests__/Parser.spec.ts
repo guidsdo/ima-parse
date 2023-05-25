@@ -1,7 +1,7 @@
 import { ParsedRule } from "../definitionParsers";
 import { Parser } from "../Parser";
 import { Grammar } from "../grammarTypes";
-import { asteriskRule, importRule } from "./testHelpers";
+import { anyTextRule, asteriskRule, importRule } from "./testHelpers";
 
 describe("Parser", () => {
     let grammar: Grammar;
@@ -129,5 +129,53 @@ describe("Parser", () => {
         expect(parts[0].childParser.getPosition()).toEqual({ start: { ln: 1, col: 1 }, end: { ln: 1, col: 2 } });
         expect(parts[1].childParser.getPosition()).toEqual({ start: { ln: 2, col: 9 }, end: { ln: 2, col: 10 } });
         expect(parts[2].childParser.getPosition()).toEqual({ start: { ln: 4, col: 9 }, end: { ln: 4, col: 10 } });
+    });
+
+    it("should be able to handle texts that don't include their end phrase", () => {
+        // Make sure the rule exists on top level
+        grammar.TopLevel.definition.push({ type: "rules", optional: true, key: "content", rules: [asteriskRule, anyTextRule] });
+
+        // Act
+        parser.parseText(`
+        *any*
+        **hi*
+`);
+
+        // Assert
+        expect(parser.brokenContent.length).toStrictEqual(0);
+        const parts = parser.getTopLevelParser().parsedParts as ParsedRule[];
+        expect(parts.length).toStrictEqual(7);
+
+        const parsedParts = parts.flatMap(p => p.childParser.parsedParts);
+
+        expect(parsedParts).toEqual([
+            { index: 0, type: "simple", value: ["*"], startPos: { col: 9, ln: 2 }, endPos: { col: 10, ln: 2 }, isFinished: true },
+            {
+                index: 0,
+                type: "simple",
+                value: ["any"],
+                startPos: { col: 10, ln: 2 },
+                endPos: { col: 13, ln: 2 },
+                ignoredPhrase: true,
+                overrideSamePart: true,
+                textMode: false,
+                isFinished: true
+            },
+            { index: 0, type: "simple", value: ["*"], startPos: { col: 14, ln: 2 }, endPos: { col: 15, ln: 2 }, isFinished: true },
+            { index: 0, type: "simple", value: ["*"], startPos: { col: 9, ln: 3 }, endPos: { col: 10, ln: 3 }, isFinished: true },
+            { index: 0, type: "simple", value: ["*"], startPos: { col: 10, ln: 3 }, endPos: { col: 11, ln: 3 }, isFinished: true },
+            {
+                index: 0,
+                type: "simple",
+                value: ["hi"],
+                startPos: { col: 11, ln: 3 },
+                endPos: { col: 13, ln: 3 },
+                ignoredPhrase: true,
+                isFinished: true,
+                overrideSamePart: true,
+                textMode: false
+            },
+            { index: 0, type: "simple", value: ["*"], startPos: { col: 14, ln: 3 }, endPos: { col: 15, ln: 3 }, isFinished: true }
+        ]);
     });
 });

@@ -55,7 +55,7 @@ export class Parser {
         this.state = "done";
     }
 
-    private parseChar(char: string) {
+    private parseChar(char: string): void {
         const charCode = char.charCodeAt(0);
 
         const receivedNewline = matchCharCodes(charCode, CharCodes.newline);
@@ -93,18 +93,12 @@ export class Parser {
             return;
         }
 
-        // If we reach this code, we've received something that can't be added to the current phrase, so it must parse (if there is one)
-        if (this.phrase) this.parseCurrentPhrase(true);
+        // If we reach this code, we've received a char that can't be added to the phrase, so we must parse the phrase and continue
+        if (this.phrase) {
+            this.parseCurrentPhrase(true);
 
-        // From here and below, we're only talking about the current char. this.phrase is empty
-        const phraseKind = receivedWordChar ? "word" : receivedNumberChar ? "number" : receivedValidNonWordChar ? "chars" : null;
-        if (phraseKind) {
-            this.addCharAndAdvanceCursor(char, phraseKind);
-
-            // We can only get a separate char if it couldn't be added to an existing word. Let's try parsing it, allowed to fail.
-            if (phraseKind === "chars") this.parseCurrentPhrase(false);
-
-            return;
+            // We're done with the current phrase, let's give the new char a chance
+            return this.parseChar(char);
         }
 
         // From here, we've received a character we cannot parse, which might be a whitespace or an invalid character
