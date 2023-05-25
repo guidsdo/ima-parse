@@ -15,6 +15,11 @@ const stringLiteralRule: GrammarRule = {
     definition: [{ type: "text", startPhrase: '"', endPhrase: '"', key: "value" }]
 };
 
+export const anyTextRule: GrammarRule = {
+    name: "AnyText",
+    definition: [{ type: "text", key: "any", endPhrase: "*", excludeEndPhrase: true }]
+};
+
 const numberLiteralRule: GrammarRule = {
     name: "NumberLiteral",
     definition: [{ type: "number", key: "number" }]
