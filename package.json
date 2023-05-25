@@ -1,9 +1,9 @@
 {
   "name": "ima-parse",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Easy Simple Parser, that only requires a Grammar JSON to output an AST.",
-  "main": "lib/src/index.js",
-  "module": "lib/src/index.js",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
   "scripts": {
     "ts:watch": "tsc -w -p tsconfig.json",
     "build": "rm -rf lib && tsc -p tsconfig.json",
