@@ -1,0 +1,24 @@
+{
+  "name": "xml-parser-example",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Just an example",
+  "main": "dist/index.js",
+  "module": "lib/src/index.js",
+  "scripts": {
+    "ts:watch": "tsc -w -p tsconfig.json",
+    "build": "rm -rf lib && tsc -p tsconfig.json",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^18",
+    "prettier": "^2.8",
+    "typescript": "^4"
+  },
+  "dependencies": {
+    "glob": "^10.2.6",
+    "ima-parse": "^0.0.7",
+    "ima-template": "^0.0.1"
+  }
+}

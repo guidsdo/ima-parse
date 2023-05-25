@@ -1,0 +1,19 @@
+{
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "files.trimTrailingWhitespace": true,
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "search.exclude": {
+        "node_modules": true,
+        "testResults": true,
+        "**/dist": true
+    },
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "editor.formatOnSave": true,
+    "[markdown]": {
+        "files.trimTrailingWhitespace": false
+    },
+    "git.autofetch": false,
+}
