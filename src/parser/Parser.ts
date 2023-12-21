@@ -1,6 +1,6 @@
 import { RuleParser } from "./RuleParser";
 import { Cursor, PhraseKind, Position, Result } from "../helpers/helpers";
-import { Grammar } from "./grammarTypes";
+import { Grammar, GrammarCharsRule } from "./grammarTypes";
 import { CharCode, CharCodes, defaultNumberChars, defaultValidChars, defaultWordChars, matchCharCodes } from "../helpers/charCodeHelpers";
 import { Input } from "./definitionParsers";
 
@@ -22,8 +22,12 @@ export class Parser {
     private phraseKind: PhraseKind = "chars";
     private cursor: Cursor = { ln: 1, col: 1 };
 
+    private wordStartChars: CharCode[] = defaultWordChars;
     private wordChars: CharCode[] = defaultWordChars;
+
+    private numberStartChars: CharCode[] = defaultNumberChars;
     private numberChars: CharCode[] = defaultNumberChars;
+
     private validChars: CharCode[] = defaultValidChars;
 
     readonly brokenContent: BrokenContent[] = [];
@@ -32,9 +36,11 @@ export class Parser {
         this.topLevelParser = new RuleParser(this.grammar.TopLevel, this.grammar);
         this.currentParser = this.topLevelParser;
 
-        if (grammar.wordChars) this.wordChars = grammar.wordChars;
-        if (grammar.numberChars) this.numberChars = grammar.numberChars;
-        if (grammar.validChars) this.validChars = grammar.validChars;
+        if (grammar.wordChars) this.wordChars = Array.isArray(grammar.wordChars) ? { chars: grammar.wordChars } : grammar.wordChars;
+        if (grammar.validChars) this.validChars = Array.isArray(grammar.validChars) ? { chars: grammar.validChars } : grammar.validChars;
+        if (grammar.numberChars) {
+            this.numberChars = Array.isArray(grammar.numberChars) ? { chars: grammar.numberChars } : grammar.numberChars;
+        }
     }
 
     getTopLevelParser(): RuleParser {
@@ -70,6 +76,8 @@ export class Parser {
             // Example: <node>text</node> where < can be the end of the text but also the start of something else.
             if (!this.currentParser.parsedParts.at(-1)?.ignoredPhrase) return;
         }
+
+        const receivedWordStartChar = matchCharCodes(charCode, ...(this.wordChars.start ?? this.wordChars.chars));
 
         const receivedWordChar = matchCharCodes(charCode, ...this.wordChars);
         const receivedNumberChar = matchCharCodes(charCode, ...this.numberChars);

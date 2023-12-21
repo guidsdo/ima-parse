@@ -1,9 +1,11 @@
 import fs from "fs/promises";
 import path from "path";
 import { glob } from "glob";
-import { BrokenContent, Parser, Position, buildContentTree, getTypesAndBuildersFromGrammar } from "ima-parse";
+import { BrokenContent, Parser, Position, assertNever, buildContentTree, getTypesAndBuildersFromGrammar } from "ima-parse";
 import { grammar } from "./grammar";
 import { TopLevel } from "./AstTypes.gen";
+import { XmlContent } from "./AstTypes.gen";
+import { XmlNodeWrapper } from "./AstTypes.gen";
 
 /** File where the derived types of the parsed tree get put. */
 const astTypesFilePath = "./src/AstTypes.gen.ts";
@@ -29,8 +31,35 @@ async function compile() {
 
         const fileContentTree = buildContentTree<TopLevel>(ruleBuilders, parser.getTopLevelParser());
         console.log(fileContentTree);
+        fileContentTree.children;
     }
 }
+
+// export type JsonNode = {
+//     children?: JsonNode[];
+// } & { [key: string]: string };
+
+// function processNode(children: (XmlNodeWrapper | XmlContent)[]): JsonNode {
+//     const mainNode:JsonNode = {};
+
+//     for (const child of children) {
+//         if (child.$type === "XmlContent") x["content"] return { content: child.content.value };
+
+//         switch (child.nodeFlavour.value.$type) {
+//             case "XmlClosingNode":
+//                 return
+//             case "XmlCommentContent":
+//             case "XmlDocType":
+//             case "XmlPrologContent":
+//             case "XmlStartNode":
+//                 break;
+
+//             default:
+//                 assertNever(child.nodeFlavour.value);
+//         }
+//     }
+
+// }
 
 compile().catch(console.log);
 
