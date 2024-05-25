@@ -22,8 +22,12 @@ export class Parser {
     private phraseKind: PhraseKind = "chars";
     private cursor: Cursor = { ln: 1, col: 1 };
 
+    private wordStartChars: CharCode[] = defaultWordChars;
     private wordChars: CharCode[] = defaultWordChars;
+
+    private numberStartChars: CharCode[] = defaultNumberChars;
     private numberChars: CharCode[] = defaultNumberChars;
+
     private validChars: CharCode[] = defaultValidChars;
 
     readonly brokenContent: BrokenContent[] = [];
@@ -32,8 +36,24 @@ export class Parser {
         this.topLevelParser = new RuleParser(this.grammar.TopLevel, this.grammar);
         this.currentParser = this.topLevelParser;
 
-        if (grammar.wordChars) this.wordChars = grammar.wordChars;
-        if (grammar.numberChars) this.numberChars = grammar.numberChars;
+        if (grammar.wordChars) {
+            if (Array.isArray(grammar.wordChars)) {
+                this.wordChars = grammar.wordChars;
+            } else {
+                this.wordChars = grammar.wordChars.chars;
+                this.wordStartChars = grammar.wordChars.start ?? grammar.wordChars.chars;
+            }
+        }
+
+        if (grammar.numberChars) {
+            if (Array.isArray(grammar.numberChars)) {
+                this.numberChars = grammar.numberChars;
+            } else {
+                this.numberChars = grammar.numberChars.chars;
+                this.numberStartChars = grammar.numberChars.start ?? grammar.numberChars.chars;
+            }
+        }
+
         if (grammar.validChars) this.validChars = grammar.validChars;
     }
 
@@ -71,24 +91,14 @@ export class Parser {
             if (!this.currentParser.parsedParts.at(-1)?.ignoredPhrase) return;
         }
 
-        const receivedWordChar = matchCharCodes(charCode, ...this.wordChars);
-        const receivedNumberChar = matchCharCodes(charCode, ...this.numberChars);
-        const receivedValidNonWordChar = !receivedWordChar && !receivedNumberChar && matchCharCodes(charCode, ...this.validChars);
+        const acceptedPhraseKind = this.canCreateOrContinuePhrase(charCode);
 
         // Here we try define the phrase OR continue the current phrase, which requires the character to match the type
-        if (
-            // Word phrases can only start with word characters
-            (receivedWordChar && (!this.phrase || this.phraseKind === "word")) ||
-            // Number phrases can only contain number characters and words can contain numbers as well
-            (receivedNumberChar && (!this.phrase || this.phraseKind === "word" || this.phraseKind === "number")) ||
-            // Character phrases can only consist of a set of allowed non-word and non-number characters, nothing else
-            (receivedValidNonWordChar && (!this.phrase || this.phraseKind === "chars"))
-        ) {
-            const phraseKind = this.phrase ? this.phraseKind : receivedWordChar ? "word" : receivedNumberChar ? "number" : "chars";
-            this.addCharAndAdvanceCursor(char, phraseKind);
+        if (acceptedPhraseKind) {
+            this.addCharAndAdvanceCursor(char, acceptedPhraseKind);
 
             // If it's a non-word, we try to parse (characters are more often next to each other), but if it doesn't succeed that's fine.
-            if (receivedValidNonWordChar) this.parseCurrentPhrase(false);
+            if (acceptedPhraseKind === "chars") this.parseCurrentPhrase(false);
 
             return;
         }
@@ -111,6 +121,23 @@ export class Parser {
             const reason: ParseError = { type: "unknown_character" };
             this.brokenContent.push({ position: { start: startCursor, end: { ...this.cursor } }, reason, content: char });
         }
+    }
+
+    private canCreateOrContinuePhrase(charCode: number): PhraseKind | undefined {
+        const matchChars = (chars: CharCode[]) => matchCharCodes(charCode, ...chars);
+
+        const isWordStartChar = matchChars(this.wordStartChars);
+        const isWordChar = matchChars(this.wordChars);
+        if ((!this.phrase && isWordStartChar) || (this.phraseKind === "word" && isWordChar)) return "word";
+
+        const isNumberStartChar = matchChars(this.numberStartChars);
+        const isNumberChar = matchChars(this.numberChars);
+        if ((!this.phrase && isNumberStartChar) || (this.phraseKind === "number" && isNumberChar)) return "number";
+
+        const isValidNonWordChar = !isWordStartChar && !isNumberStartChar && matchChars(this.validChars);
+        if (isValidNonWordChar && (!this.phrase || this.phraseKind === "chars")) return "chars";
+
+        return;
     }
 
     private advanceCursor(newline: boolean) {

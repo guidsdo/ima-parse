@@ -95,10 +95,12 @@ export type DefinitionPart = SimpleDefinitionPart | DefinitionRules | Definition
  */
 export type GrammarRule = { name: string; definition: DefinitionPart[] };
 
+export type GrammarCharsRule = { start?: CharCode[]; chars: CharCode[] };
+
 export type Grammar = {
     TopLevel: GrammarRule;
     global: DefinitionRules;
-    wordChars?: CharCode[];
-    numberChars?: CharCode[];
+    wordChars?: CharCode[] | GrammarCharsRule;
+    numberChars?: CharCode[] | GrammarCharsRule;
     validChars?: CharCode[];
 };
