@@ -20,15 +20,14 @@
     "url": "git+https://github.com/guidsdo/ima-parse.git"
   },
   "license": "Apache-2.0",
-  "dependencies": {
-    "prettier": "^2.8.1",
-    "typescript": "^5.9.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^22.0.0",
     "jest": "^30.2.0",
-    "ts-jest": "^29.4.5"
+    "prettier": "^2.8.1",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3"
   },
   "keywords": [
     "parser",
