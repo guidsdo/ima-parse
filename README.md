@@ -6,6 +6,7 @@ Perfect for parsing your own DSL or even an existing language, which requires on
 # What makes this parser so _easy_?
 
 1. You get an AST which can be directly used to interpret the parsed text
+1. No runtime npm dependencies
 1. This is an opinionated parser, with some limits:
     1. Whitespace characters are always ignored (unless in text mode for comments etc)
     1. No backtracking. If a matched phrase is not found in the current context, it goes up the context until it finds a match and errors if necessary
