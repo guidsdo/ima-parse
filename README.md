@@ -3,6 +3,19 @@
 Another parser, but wait! it might be easy to use. The idea is that there are certain limits, that limit the complexity.
 Perfect for parsing your own DSL or even an existing language, which requires only one Grammar JSON file to generate an AST.
 
+# What makes this parser so _easy_?
+
+1. You get an AST which can be directly used to interpret the parsed text
+1. This is an opinionated parser, with some limits:
+    1. Whitespace characters are always ignored (unless in text mode for comments etc)
+    1. No backtracking. If a matched phrase is not found in the current context, it goes up the context until it finds a match and errors if necessary
+    1. Only useable with TypeScript/JavaScript
+    1. Not compatible (yet?) with other grammar formats (like (E)BNF etc). Just JSON/objects
+1. These limits mean:
+    1. Fastest possible procedural parser (in JavaScript)
+    1. Simple source code
+    1. Focussed on supporting the common subset instead of everything that might be possible.
+
 # How to use?
 
 ![alt](./assets/how-to-use.png)
@@ -40,4 +53,4 @@ A rule is a concept in the grammar. This concept consist of certain parts, of wh
 # Roadmap
 * [ ] Add LSP support
 * [x] Allow choosing your own noun-characters (custom word chars, like a - and a $)
-* [ ] Allow choosing start chars and other chars for custom char options
+* [x] Allow choosing start chars and other chars for custom char options
