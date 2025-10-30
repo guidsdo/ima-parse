@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`typeGenerators buildContentTree should fill the content tree with the parsed text and adhere to the generated types 1`] = `
 {

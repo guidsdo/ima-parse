@@ -147,6 +147,8 @@ export type NumberLiteral = $RuleContentTreeBase & {
 
 function compileTypeScriptCode(code: string, libs: string[] = ["es2022"]): ts.Diagnostic[] {
     const options = ts.getDefaultCompilerOptions();
+    options.types = [];
+
     const realHost = ts.createCompilerHost(options, true);
 
     const dummyFilePath = "/in-memory-file.ts";
@@ -172,7 +174,7 @@ function compileTypeScriptCode(code: string, libs: string[] = ["es2022"]): ts.Di
     };
 
     const rootNames = libs.map(lib => require.resolve(`typescript/lib/lib.${lib}.d.ts`));
-    const program = ts.createProgram(rootNames.concat([dummyFilePath]), options, host);
+    const program = ts.createProgram([dummyFilePath], options, host);
     const emitResult = program.emit();
     const diagnostics = ts.getPreEmitDiagnostics(program);
     return emitResult.diagnostics.concat(diagnostics);

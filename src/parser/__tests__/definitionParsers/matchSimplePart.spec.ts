@@ -21,7 +21,7 @@ describe("definitionParsers > matchSimplePart()", () => {
         input.chars = "if";
         input.phraseKind = "word";
 
-        expect(() => matchSimplePart({ definition: { type: "paths" } as any, ...parseInfoBase })).toThrowError(
+        expect(() => matchSimplePart({ definition: { type: "paths" } as any, ...parseInfoBase })).toThrow(
             'Unexpected object: {"type":"paths"}'
         );
     });
@@ -30,7 +30,7 @@ describe("definitionParsers > matchSimplePart()", () => {
         input.chars = "if";
         input.phraseKind = "word";
 
-        expect(() => matchSimplePart({ definition: { type: "rules" } as any, ...parseInfoBase })).toThrowError(
+        expect(() => matchSimplePart({ definition: { type: "rules" } as any, ...parseInfoBase })).toThrow(
             'Unexpected object: {"type":"rules"}'
         );
     });
