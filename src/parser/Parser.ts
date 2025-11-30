@@ -3,14 +3,7 @@ import { Cursor, PhraseKind, Position, Result } from "../helpers/helpers";
 import { Grammar } from "./grammarTypes";
 import { CharCode, CharCodes, defaultNumberChars, defaultValidChars, defaultWordChars, matchCharCodes } from "../helpers/charCodeHelpers";
 import { Input } from "./definitionParsers";
-
-export type ParsePartRef = { rule: string; part?: number };
-export type ParseError =
-    | { type: "unknown_character" }
-    | { type: "unfinished_rule"; parsedPart: ParsePartRef }
-    | { type: "unexpected_phrase"; parsedPart: ParsePartRef };
-
-export type BrokenContent = { position: Position; content: string; reason: ParseError; parseTrail?: ParsePartRef[] };
+import { BrokenContent, ParseError, ParsePartRef } from "../helpers/diagnostics";
 
 export class Parser {
     private state: "not_started" | "parsing" | "done" = "not_started";
@@ -123,21 +116,21 @@ export class Parser {
         }
     }
 
-    private canCreateOrContinuePhrase(charCode: number): PhraseKind | undefined {
+    private canCreateOrContinuePhrase(charCode: number): PhraseKind | void {
         const matchChars = (chars: CharCode[]) => matchCharCodes(charCode, ...chars);
 
+        const newPhrase = !this.phrase;
         const isWordStartChar = matchChars(this.wordStartChars);
         const isWordChar = matchChars(this.wordChars);
-        if ((!this.phrase && isWordStartChar) || (this.phraseKind === "word" && isWordChar)) return "word";
+
+        if ((newPhrase && isWordStartChar) || (!newPhrase && this.phraseKind === "word" && isWordChar)) return "word";
 
         const isNumberStartChar = matchChars(this.numberStartChars);
         const isNumberChar = matchChars(this.numberChars);
-        if ((!this.phrase && isNumberStartChar) || (this.phraseKind === "number" && isNumberChar)) return "number";
+        if ((newPhrase && isNumberStartChar) || (!newPhrase && this.phraseKind === "number" && isNumberChar)) return "number";
 
         const isValidNonWordChar = !isWordStartChar && !isNumberStartChar && matchChars(this.validChars);
-        if (isValidNonWordChar && (!this.phrase || this.phraseKind === "chars")) return "chars";
-
-        return;
+        if (isValidNonWordChar && (newPhrase || this.phraseKind === "chars")) return "chars";
     }
 
     private advanceCursor(newline: boolean) {
@@ -228,7 +221,7 @@ export class Parser {
 }
 
 function getParsePartRef(parser: RuleParser): ParsePartRef {
-    return { rule: parser.rule.name, part: parser.parsedParts.at(-1)?.index || 0 };
+    return { rule: parser.rule, part: parser.parsedParts.at(-1)?.index || 0 };
 }
 
 function getStartCursor(endPos: Cursor, chars: string): Cursor {
