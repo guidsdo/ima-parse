@@ -1,21 +1,24 @@
 # ima parse
 
-Another parser, but wait! it might be easy to use. The idea is that there are certain limits, that limit the complexity.
+Another parser, but wait! ...it might be **easy** to use. The idea is that there are certain limits, that limit the complexity.
 Perfect for parsing your own DSL or even an existing language, which requires only one Grammar JSON file to generate an AST.
 
 # What makes this parser so _easy_?
 
 1. You get an AST which can be directly used to interpret the parsed text
 1. No runtime npm dependencies
-1. This is an opinionated parser, with some limits:
-    1. Whitespace characters are always ignored (unless in text mode for comments etc)
-    1. No backtracking. If a matched phrase is not found in the current context, it goes up the context until it finds a match and errors if necessary
-    1. Only useable with TypeScript/JavaScript
-    1. Not compatible (yet?) with other grammar formats (like (E)BNF etc). Just JSON/objects
+1. This is an opinionated parser, with some limit (see below).
 1. These limits mean:
     1. Fastest possible procedural parser (in JavaScript)
     1. Simple source code
     1. Focussed on supporting the common subset instead of everything that might be possible.
+    
+# Downsides
+1. Your language has to be non-ambigious where scopes are shared. There is no backtracking, lookahead or multipath matching.
+1. The runtime is always javascript and the generated types only in TypeScript.
+1. The grammar is, by design, very verbose. No (E)BNF support.
+1. Whitespace characters are always ignored (unless in text mode for comments etc). That excludes some languages as well.
+1. Nobody is really using it but me. I think there is no real good reason to use this, but if you do I will support you.
 
 # How to use?
 
@@ -49,7 +52,7 @@ A rule is a concept in the grammar. This concept consist of certain parts, of wh
 * **Rules**: Reference to one or more rules. Might be required, singular and have a separator (like a comma)
 
 ## Examples
-... todo
+There is an XML example in the examples folder and some example code snippets in the unit tests.
 
 # Roadmap
 * [ ] Add LSP support
