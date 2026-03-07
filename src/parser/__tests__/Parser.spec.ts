@@ -30,42 +30,43 @@ describe("Parser", () => {
 
             // Assert
             expect(parser.getTopLevelParser().parsedParts.length).toStrictEqual(0);
+            const topLevelRef = { part: 0, rule: expect.objectContaining({ name: "TopLevel" }) };
             expect(parser.brokenContent).toEqual([
                 {
                     content: "import",
-                    parseTrail: [{ part: 0, rule: "TopLevel" }],
+                    parseTrail: [topLevelRef],
                     position: { start: { col: 1, ln: 1 }, end: { col: 7, ln: 1 } },
-                    reason: { parsedPart: { part: 0, rule: "TopLevel" }, type: "unexpected_phrase" }
+                    reason: { parsedPart: topLevelRef, type: "unexpected_phrase" }
                 },
                 {
                     content: "*",
-                    parseTrail: [{ part: 0, rule: "TopLevel" }],
+                    parseTrail: [topLevelRef],
                     position: { start: { col: 8, ln: 1 }, end: { col: 9, ln: 1 } },
-                    reason: { parsedPart: { part: 0, rule: "TopLevel" }, type: "unexpected_phrase" }
+                    reason: { parsedPart: topLevelRef, type: "unexpected_phrase" }
                 },
                 {
                     content: "from",
-                    parseTrail: [{ part: 0, rule: "TopLevel" }],
+                    parseTrail: [topLevelRef],
                     position: { start: { col: 10, ln: 1 }, end: { col: 14, ln: 1 } },
-                    reason: { parsedPart: { part: 0, rule: "TopLevel" }, type: "unexpected_phrase" }
+                    reason: { parsedPart: topLevelRef, type: "unexpected_phrase" }
                 },
                 {
                     content: '"',
-                    parseTrail: [{ part: 0, rule: "TopLevel" }],
+                    parseTrail: [topLevelRef],
                     position: { start: { col: 15, ln: 1 }, end: { col: 16, ln: 1 } },
-                    reason: { parsedPart: { part: 0, rule: "TopLevel" }, type: "unexpected_phrase" }
+                    reason: { parsedPart: topLevelRef, type: "unexpected_phrase" }
                 },
                 {
                     content: "path",
-                    parseTrail: [{ part: 0, rule: "TopLevel" }],
+                    parseTrail: [topLevelRef],
                     position: { start: { col: 16, ln: 1 }, end: { col: 20, ln: 1 } },
-                    reason: { parsedPart: { part: 0, rule: "TopLevel" }, type: "unexpected_phrase" }
+                    reason: { parsedPart: topLevelRef, type: "unexpected_phrase" }
                 },
                 {
                     content: '"',
-                    parseTrail: [{ part: 0, rule: "TopLevel" }],
+                    parseTrail: [topLevelRef],
                     position: { start: { col: 20, ln: 1 }, end: { col: 21, ln: 1 } },
-                    reason: { parsedPart: { part: 0, rule: "TopLevel" }, type: "unexpected_phrase" }
+                    reason: { parsedPart: topLevelRef, type: "unexpected_phrase" }
                 }
             ]);
         });
@@ -95,12 +96,12 @@ describe("Parser", () => {
             expect(parser.getTopLevelParser().parsedParts.length).toStrictEqual(2);
             expect(parser.brokenContent).toEqual([
                 {
-                    reason: { type: "unfinished_rule", parsedPart: { rule: "Import", part: 2 } },
+                    reason: { type: "unfinished_rule", parsedPart: { rule: expect.objectContaining({ name: "Import" }), part: 2 } },
                     content: "import",
                     position: { start: { col: 15, ln: 1 }, end: { col: 21, ln: 1 } },
                     parseTrail: [
-                        { part: 2, rule: "Import" },
-                        { part: 0, rule: "TopLevel" }
+                        { part: 2, rule: expect.objectContaining({ name: "Import" }) },
+                        { part: 0, rule: expect.objectContaining({ name: "TopLevel" }) }
                     ]
                 }
             ]);
@@ -114,6 +115,75 @@ describe("Parser", () => {
             parser.parseText(`import * from "path"`);
 
             // Assert
+            expect(parser.brokenContent.length).toStrictEqual(0);
+            expect(parser.getTopLevelParser().parsedParts.length).toStrictEqual(1);
+        });
+
+        it("should parse when multiple rules could match (multi-path)", () => {
+            const keywordRule: GrammarRule = { name: "KeywordRule", definition: [{ type: "keyword", phrase: "foo" }] };
+            const identifierRule: GrammarRule = { name: "IdentifierRule", definition: [{ type: "identifier", key: "name" }] };
+
+            grammar.TopLevel.definition.push({
+                type: "rules",
+                optional: false,
+                key: "content",
+                rules: [keywordRule, identifierRule],
+                singular: true
+            });
+
+            parser = new Parser(grammar);
+            parser.parseText("foo");
+
+            expect(parser.brokenContent.length).toStrictEqual(0);
+            expect(parser.getTopLevelParser().parsedParts.length).toStrictEqual(1);
+        });
+
+        it("should let fallback path win when first rule matches but fails later", () => {
+            // Rule A: "x" then "y"; Rule B: "x" then "z". Input "x z" - single-path would fail (A matches x, then z fails).
+            // Multi-path forks on "x", branch B survives "z".
+            const ruleA: GrammarRule = {
+                name: "RuleA",
+                definition: [{ type: "keyword", phrase: "x" }, { type: "keyword", phrase: "y" }]
+            };
+            const ruleB: GrammarRule = {
+                name: "RuleB",
+                definition: [{ type: "keyword", phrase: "x" }, { type: "keyword", phrase: "z" }]
+            };
+
+            grammar.TopLevel.definition.push({
+                type: "rules",
+                optional: false,
+                key: "content",
+                rules: [ruleA, ruleB],
+                singular: true
+            });
+
+            parser = new Parser(grammar);
+            parser.parseText("x z");
+
+            expect(parser.brokenContent.length).toStrictEqual(0);
+            expect(parser.getTopLevelParser().parsedParts.length).toStrictEqual(1);
+            const part = parser.getTopLevelParser().parsedParts[0] as ParsedRule;
+            expect(part.childParser.rule.name).toBe("RuleB");
+        });
+
+        it("should respect branch cap when many rules match", () => {
+            const rules: GrammarRule[] = [];
+            for (let i = 0; i < 40; i++) {
+                rules.push({ name: `Rule${i}`, definition: [{ type: "keyword", phrase: "x" }] });
+            }
+
+            grammar.TopLevel.definition.push({
+                type: "rules",
+                optional: false,
+                key: "content",
+                rules,
+                singular: true
+            });
+
+            parser = new Parser(grammar);
+            parser.parseText("x");
+
             expect(parser.brokenContent.length).toStrictEqual(0);
             expect(parser.getTopLevelParser().parsedParts.length).toStrictEqual(1);
         });

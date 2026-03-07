@@ -57,6 +57,40 @@ export type ParseInfo<D extends DefinitionPart, P extends ParsedPartBase = Parse
     previousParsedPart?: P;
 };
 
+export function parseInputAll(input: Input, context: ParseContext, previousParsedPart?: ParsedPart): ParsedPart[] {
+    const results: ParsedPart[] = [];
+
+    if (previousParsedPart && previousParsedPart?.isFinished !== true) {
+        const index = previousParsedPart.index;
+        const definition = context.parts[index];
+        if (definition.type === "rules") {
+            results.push(...matchRulePartAll({ definition, index, input, context, previousParsedPart: previousParsedPart as ParsedRule }));
+        } else {
+            const parsedPart = matchDefinition(definition, index, input, context, previousParsedPart);
+            if (parsedPart) results.push(parsedPart);
+        }
+        if (results.length > 0 || (previousParsedPart.type === "paths" && !previousParsedPart.hasSatisfiedPath)) return results;
+    }
+
+    let index = previousParsedPart ? previousParsedPart.index + 1 : 0;
+    for (; index < context.parts.length; index++) {
+        const definition = context.parts[index];
+        if (definition.type === "rules") {
+            const ruleResults = matchRulePartAll({ definition, index, input, context });
+            results.push(...ruleResults);
+        } else {
+            const parsedPart = matchDefinition(definition, index, input, context);
+            if (parsedPart) results.push(parsedPart);
+        }
+        if (results.length > 0) {
+            if (!definition.optional) return results;
+        } else if (!definition.optional) {
+            return results;
+        }
+    }
+    return results;
+}
+
 export function parseInput(input: Input, context: ParseContext, previousParsedPart?: ParsedPart): ParsedPart | undefined {
     // We try to re-parse the previous parsed part, because some parts allow multiple content (comments, modifiers, paths, rules)
     if (previousParsedPart && previousParsedPart?.isFinished !== true) {
@@ -164,11 +198,9 @@ export function matchSimplePart({ definition, input, index, previousParsedPart }
             const match = definition.phrases.includes(chars);
             if (previousParsedPart) {
                 if (match && !previousParsedPart.value.includes(chars)) {
-                    previousParsedPart.value.push(chars);
-                    previousParsedPart.overrideSamePart = true;
-                    previousParsedPart.endPos = endPos;
-                    previousParsedPart.isFinished = previousParsedPart.value.length === definition.phrases.length;
-                    return previousParsedPart;
+                    const newValue = [...previousParsedPart.value, chars];
+                    const isFinished = newValue.length === definition.phrases.length;
+                    return { ...previousParsedPart, value: newValue, overrideSamePart: true, endPos, isFinished };
                 }
 
                 break;
@@ -185,7 +217,7 @@ export function matchSimplePart({ definition, input, index, previousParsedPart }
             let part: ParsedSimplePart | undefined;
 
             if (previousParsedPart) {
-                part = previousParsedPart;
+                part = { ...previousParsedPart };
             } else if (!definition.startPhrase || chars === definition.startPhrase) {
                 part = { type: "simple", index, value: [""], startPos, endPos, textMode: true };
             }
@@ -195,19 +227,14 @@ export function matchSimplePart({ definition, input, index, previousParsedPart }
 
                 // Make sure to ignore the matched startprhase, if there was any
                 if (text.slice(definition.startPhrase?.length).endsWith(definition.endPhrase)) {
-                    part.isFinished = true;
-                    part.textMode = false;
-
-                    part.ignoredPhrase = definition.excludeEndPhrase;
-
                     if (definition.excludeEndPhrase) text = text.slice(0, text.length - definition.endPhrase.length);
+                    return { ...part, value: [text], isFinished: true, textMode: false, ...(definition.excludeEndPhrase && { ignoredPhrase: true }), ...(previousParsedPart && { overrideSamePart: true }) };
                 }
 
-                part.value[0] = text;
-                if (previousParsedPart) part.overrideSamePart = true;
+                return { ...part, value: [text], ...(previousParsedPart && { overrideSamePart: true }) };
             }
 
-            return part;
+            return undefined;
         }
 
         default:
@@ -231,34 +258,40 @@ export function isDefinitionSatisfied(parts: DefinitionPart[], parsedParts: Pars
 }
 
 type RuleParseInfo = ParseInfo<DefinitionRules, ParsedRule>;
-export function matchRulePart({ definition, input, index, context, previousParsedPart }: RuleParseInfo): ParsedRule | undefined {
+
+export function matchRulePartAll({ definition, input, index, context, previousParsedPart }: RuleParseInfo): ParsedRule[] {
     if (previousParsedPart) {
         if (!previousParsedPart.separatorSatisfied) {
             if (definition.separatorPhrase === input.chars) {
-                previousParsedPart.separatorSatisfied = true;
-                previousParsedPart.overrideSamePart = true;
-                return previousParsedPart;
+                return [{ ...previousParsedPart, separatorSatisfied: true, overrideSamePart: true }];
             }
-
-            // We won't continue parsing rules if a separator is required but not given
-            if (!previousParsedPart.separatorOptional) return undefined;
+            if (!previousParsedPart.separatorOptional) return [];
         }
-
-        if (definition.singular) return undefined;
+        if (definition.singular) return [];
     }
 
+    const results: ParsedRule[] = [];
     for (const grammarRule of getRules(definition)) {
         const childParser = new RuleParser(grammarRule, context.grammar, context.parser);
         const parseResult = childParser.parsePhrase(input);
 
         if (parseResult.success) {
-            // If there is a separatorPhrase, then we can only continue with other rules if it's satisfied
-            const separatorSatisfied = definition.separatorPhrase === undefined;
-            const separatorOptional = definition.separatorOptional;
-
-            return { type: "rule", index, childParser, successfulParser: parseResult.ruleParser, separatorSatisfied, separatorOptional };
+            const parsedChildParser = parseResult.parserWithNewPart ?? parseResult.ruleParser;
+            const successfulParser = parseResult.ruleParser;
+            results.push({
+                type: "rule",
+                index,
+                childParser: parsedChildParser,
+                successfulParser,
+                separatorSatisfied: definition.separatorPhrase === undefined,
+                separatorOptional: definition.separatorOptional
+            });
         }
     }
+    return results;
+}
 
-    return undefined;
+export function matchRulePart({ definition, input, index, context, previousParsedPart }: RuleParseInfo): ParsedRule | undefined {
+    const all = matchRulePartAll({ definition, input, index, context, previousParsedPart });
+    return all[0];
 }

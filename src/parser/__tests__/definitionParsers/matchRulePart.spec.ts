@@ -143,7 +143,7 @@ describe("definitionParsers > matchRulePart()", () => {
         const definition: DefinitionRules = { type: "rules", rules: [simpleRule], key: "k", separatorPhrase: ",", optional: false };
 
         input.chars = "SimpleWord";
-        const previousParsedPart = matchRulePart({ ...parseInfoBase, definition })!;
+        let previousParsedPart = matchRulePart({ ...parseInfoBase, definition })!;
 
         // Assert: separatorSatisfied 'false'
         expect(previousParsedPart?.separatorSatisfied).toStrictEqual(false);
@@ -152,9 +152,11 @@ describe("definitionParsers > matchRulePart()", () => {
         input.chars = ",";
         const resultWithSeparator = matchRulePart({ ...parseInfoBase, definition, previousParsedPart });
 
-        // Assert: separatorSatisfied 'true'
-        expect(resultWithSeparator).toStrictEqual(previousParsedPart);
-        expect(previousParsedPart.separatorSatisfied).toStrictEqual(true);
+        // Assert: separatorSatisfied 'true' (immutable: result is a new object)
+        expect(resultWithSeparator).not.toBeUndefined();
+        expect(resultWithSeparator!.separatorSatisfied).toStrictEqual(true);
+        expect(resultWithSeparator!.childParser.parsedParts).toEqual([{ ...SIMPLE_PART_DATA, value: ["SimpleWord"], isFinished: true }]);
+        previousParsedPart = resultWithSeparator!;
 
         // Act: Pass the next valid input
         input.chars = "SimpleWord";
@@ -171,7 +173,7 @@ describe("definitionParsers > matchRulePart()", () => {
         const definition: DefinitionRules = { type: "rules", rules: [simpleRule], key: "k", separatorPhrase: ",", optional: false };
 
         input.chars = "SimpleWord";
-        const previousParsedPart = matchRulePart({ ...parseInfoBase, definition })!;
+        let previousParsedPart = matchRulePart({ ...parseInfoBase, definition })!;
 
         // Assert: separatorSatisfied 'false'
         expect(previousParsedPart?.separatorSatisfied).toStrictEqual(false);
@@ -180,17 +182,17 @@ describe("definitionParsers > matchRulePart()", () => {
         input.chars = ",";
         const resultWithSeparator = matchRulePart({ ...parseInfoBase, definition, previousParsedPart });
 
-        // Assert: separatorSatisfied 'true'
-        expect(resultWithSeparator).toStrictEqual(previousParsedPart);
-        expect(previousParsedPart.separatorSatisfied).toStrictEqual(true);
+        // Assert: separatorSatisfied 'true' (immutable: use returned value)
+        expect(resultWithSeparator).not.toBeUndefined();
+        expect(resultWithSeparator!.separatorSatisfied).toStrictEqual(true);
+        previousParsedPart = resultWithSeparator!;
 
         // Act: Give another separator
         input.chars = ",";
         const result = matchRulePart({ ...parseInfoBase, definition, previousParsedPart });
 
-        // Assert: No parsedPart as a result and previousParsedPart stayed the same
+        // Assert: No parsedPart as a result
         expect(result).toBeUndefined();
-        expect(previousParsedPart.separatorSatisfied).toStrictEqual(true);
 
         // Act: Pass the next valid input, should work again
         input.chars = "SimpleWord";

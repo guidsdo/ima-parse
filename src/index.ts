@@ -1,5 +1,6 @@
 export * from "./parser/Parser";
 export * from "./parser/RuleParser";
+export * from "./parser/BranchManager";
 export * from "./parser/grammarTypes";
 export * from "./helpers/charCodeHelpers";
 export * from "./helpers/helpers";
