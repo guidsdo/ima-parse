@@ -1,0 +1,32 @@
+# Concepts
+# ()    literal
+# []    union
+# [ ]   escaping a special grammar char, for example: QUESTION_MARK = [?]
+# ...   0 or more
+# ?     optional
+# !     strict: allow no ignored (often whitespace) characters inbetween the literal values
+# *     literally anything, including ignore chars
+# #     comment
+# @     settings, for example: @ignore [\n, \r, \t]
+
+# Available settings:
+# @ignore [\n]          ignores these characters entirely, which saves you from putting whitespace exclusions everywhere
+# @allow [a-Z]          set what characters are allowed in general, even in *
+# @import ../dsl.ip     imports a different grammar file and allows importing its rules
+# @import base          imports the base grammar provided by the library, which comes with some handy shortcuts
+
+WS = [\n, \r, \t]
+
+
+0-9 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+a-z = [a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z]
+A-Z = [A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z]
+a-Z = [a-z, A-Z]
+OP = [+, -, *, /, ^]
+
+POSTCODE = (0-9, 0-9, 0-9, 0-9, a-Z, a-Z)!
+WORD = (a-Z, ...[0-9, a-Z]?)!
+
+XmlNodeWrapper = (<, [WORD]?, >)
+
+XmlComment = (!--, [*, \-], --!)
